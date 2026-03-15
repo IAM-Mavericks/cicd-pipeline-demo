@@ -1,8 +1,44 @@
+# Dependencies
 node_modules
 */node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+frontend/dist
+
+# ZKP build artifacts (large binary files)
+backend/zkp/circuits/build/
+*.zkey
+*.ptau
+*.wasm
+*.r1cs
+*.sym
+*.cpp
+*.dat
+
+# Test coverage
+coverage
+backend/coverage/
+
+# Mobile builds
+frontend/android/
+frontend/ios/
+
+# Logs
+*.log
+logs/
+backend/logs/
+
+# Environment files
 .env
 */.env
-.pnpm-store
-dist
+
+# OS
 .DS_Store
-*.log
+
+# IDE
+.vscode
+.idea
+.qodo
