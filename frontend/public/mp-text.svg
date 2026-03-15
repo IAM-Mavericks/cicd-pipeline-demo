@@ -1,0 +1,15 @@
+<svg width="160" height="140" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mpGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- M Letter -->
+  <path d="M38 37 L38 113 L52 113 L52 67 L72 113 L88 113 L108 67 L108 113 L122 113 L122 37 L102 37 L80 90 L58 37 Z" fill="url(#mpGradient)"/>
+  
+  <!-- P Letter -->
+  <path d="M138 37 L138 113 L152 113 L152 82 L138 82 L138 51 L158 51 Q168 51 168 61 Q168 71 158 71 L152 71 L152 82 L158 82 Q178 82 178 61 Q178 37 158 37 Z" fill="url(#mpGradient)"/>
+</svg>

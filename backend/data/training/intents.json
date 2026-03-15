@@ -1,0 +1,163 @@
+{
+  "intents": [
+    {
+      "intent": "BALANCE_INQUIRY",
+      "patterns": [
+        "check my balance",
+        "what's my balance",
+        "how much money do I have",
+        "show me my account balance",
+        "balance inquiry",
+        "account balance",
+        "what is my balance",
+        "check account balance",
+        "show balance",
+        "my balance",
+        "account status",
+        "how much do I have",
+        "wetin dey my account",
+        "how much I get",
+        "abeg check my balance",
+        "make you show me my money",
+        "I wan know my balance",
+        "wetin be my balance",
+        "how much money I get for account",
+        "abeg show me wetin dey inside",
+        "make I see my balance"
+      ],
+      "responses": [
+        "Here are your account balances:",
+        "Your current balance is:",
+        "You have the following balances:",
+        "Let me check that for you. Your balance is:"
+      ],
+      "confidence_threshold": 0.7
+    },
+    {
+      "intent": "TRANSFER",
+      "patterns": [
+        "send {amount} to {recipient}",
+        "transfer {amount} to {account}",
+        "pay {recipient} {amount}",
+        "send money to {recipient}",
+        "transfer money to {account}",
+        "send {amount} naira to {recipient}",
+        "transfer {amount} naira to {account}",
+        "make a transfer of {amount}",
+        "I want to send {amount}",
+        "can you send {amount} to {recipient}",
+        "abeg send {amount} give {recipient}",
+        "make you transfer {amount} to {account}",
+        "I wan send {amount} to {recipient}",
+        "abeg help me send {amount}",
+        "make you carry {amount} give {recipient}",
+        "I wan transfer {amount} give {account}",
+        "send {amount} go {recipient} account",
+        "abeg move {amount} to {recipient}"
+      ],
+      "entities": ["amount", "recipient", "account"],
+      "responses": [
+        "I want to confirm this transfer:",
+        "Please confirm this transaction:",
+        "You want to send:",
+        "Let me help you with that transfer:"
+      ],
+      "confidence_threshold": 0.75
+    },
+    {
+      "intent": "BILL_PAYMENT",
+      "patterns": [
+        "pay my {biller} bill",
+        "pay {biller}",
+        "pay my {biller} subscription",
+        "make payment for {biller}",
+        "I want to pay {biller}",
+        "pay my electricity bill",
+        "pay my cable subscription",
+        "recharge my {biller}",
+        "renew my {biller} subscription",
+        "make you pay my {biller}",
+        "abeg pay my {biller} bill",
+        "I wan pay {biller}",
+        "help me pay {biller}",
+        "abeg help me pay my light bill",
+        "make you pay my DSTV",
+        "I wan renew my {biller}",
+        "abeg buy {biller} for me"
+      ],
+      "entities": ["biller", "amount"],
+      "responses": [
+        "I'll help you pay your bill:",
+        "Let me process your bill payment:",
+        "Which package would you like to pay for?"
+      ],
+      "confidence_threshold": 0.7
+    },
+    {
+      "intent": "AIRTIME_PURCHASE",
+      "patterns": [
+        "buy {amount} {network} airtime",
+        "buy airtime for {phone}",
+        "recharge {phone} with {amount}",
+        "get me {amount} {network} credit",
+        "buy {amount} MTN credit",
+        "purchase airtime",
+        "I need airtime",
+        "buy me airtime",
+        "recharge my phone",
+        "top up my phone",
+        "I wan buy {amount} airtime",
+        "abeg buy {amount} {network} for me",
+        "make you buy airtime for me",
+        "I need {amount} credit",
+        "buy {amount} recharge card",
+        "abeg load {amount} for {phone}",
+        "make you buy {network} credit",
+        "I wan recharge {amount}"
+      ],
+      "entities": ["amount", "network", "phone"],
+      "responses": [
+        "I'll purchase airtime for you:",
+        "Let me buy that airtime:",
+        "Which network would you like?"
+      ],
+      "confidence_threshold": 0.7
+    },
+    {
+      "intent": "TRANSACTION_HISTORY",
+      "patterns": [
+        "show my transactions",
+        "transaction history",
+        "recent transactions",
+        "what are my last transactions",
+        "show me my transaction history",
+        "list my transactions",
+        "what transactions have I made",
+        "show recent activity",
+        "my transaction log",
+        "account activity",
+        "show me wetin I don do",
+        "make you show me my history",
+        "I wan see my transactions",
+        "wetin I don spend",
+        "show me where my money go",
+        "abeg show me my transaction",
+        "make I see wetin I don buy",
+        "I wan know wetin I don pay"
+      ],
+      "responses": [
+        "Here are your recent transactions:",
+        "Your transaction history:",
+        "Let me pull up your recent activity:"
+      ],
+      "confidence_threshold": 0.7
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-10",
+    "total_patterns": 95,
+    "languages": ["English", "Nigerian Pidgin"],
+    "description": "Training data for SznPay conversational banking AI"
+  }
+}

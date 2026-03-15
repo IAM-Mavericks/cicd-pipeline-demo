@@ -1,0 +1,74 @@
+{
+    "translations": {
+        "me": "what",
+        "don": "please",
+        "ba": "give",
+        "aika": "send",
+        "sayi": "buy",
+        "biya": "pay",
+        "yaya": "how",
+        "nawa": "how",
+        "da": "with",
+        "akawunti": "account",
+        "kudi": "money",
+        "wuta": "light",
+        "so": "want",
+        "ni": "I",
+        "kai": "you",
+        "cikin": "in",
+        "domin": "for",
+        "daga": "from",
+        "zuwa": "to",
+        "rufe": "close",
+        "bude": "open",
+        "toshe": "block",
+        "kati": "card"
+    },
+    "common_phrases": [
+        {
+            "text": "ina so in aika kudi",
+            "english": "I want to send money",
+            "intent": "TRANSFER",
+            "confidence": 0.95
+        },
+        {
+            "text": "nawa ne kudi na",
+            "english": "how much is my money",
+            "intent": "BALANCE_INQUIRY",
+            "confidence": 0.95
+        },
+        {
+            "text": "ina so in sayi kati",
+            "english": "I want to buy card (airtime)",
+            "intent": "AIRTIME_PURCHASE",
+            "confidence": 0.95
+        },
+        {
+            "text": "don Allah biya kudin wuta na",
+            "english": "please pay my light money",
+            "intent": "BILL_PAYMENT",
+            "confidence": 0.95
+        }
+    ],
+    "context_markers": {
+        "polite_request": [
+            "don allah"
+        ],
+        "desire": [
+            "ina so",
+            "na so"
+        ],
+        "question": [
+            "yaya",
+            "nawa"
+        ],
+        "confirmation": [
+            "ko",
+            "ba"
+        ]
+    },
+    "metadata": {
+        "language": "hausa",
+        "version": "1.0.0"
+    }
+}

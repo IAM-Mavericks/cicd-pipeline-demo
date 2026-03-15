@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+*/node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+.next
+
+# Git
+.git
+.gitignore
+
+# Environment files — NEVER in image
+.env
+.env.*
+*.env
+
+# Mobile builds
+android
+ios
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# IDE
+.vscode
+.idea
+
+# Test coverage
+coverage

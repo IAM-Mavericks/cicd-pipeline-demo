@@ -1,0 +1,28 @@
+config:
+  target: "http://localhost:3002"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 120
+      arrivalRate: 50
+      rampTo: 100
+      name: "Ramp up load"
+    - duration: 240
+      arrivalRate: 100
+      name: "Sustained load"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Public API Health Check"
+    flow:
+      - get:
+          url: "/health"
+  - name: "Billers List check (Auth Protected)"
+    flow:
+      - get:
+          url: "/api/bills/billers"
+          expect:
+            - statusCode: 401

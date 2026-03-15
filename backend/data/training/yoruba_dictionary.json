@@ -1,0 +1,80 @@
+{
+    "translations": {
+        "kini": "what",
+        "ti": "that",
+        "jowo": "please",
+        "ejor": "please",
+        "fun": "give",
+        "ran": "send",
+        "gbe": "carry",
+        "ra": "buy",
+        "san": "pay",
+        "bawo": "how",
+        "pupo": "much",
+        "ni": "is",
+        "akownt": "account",
+        "owo": "money",
+        "ina": "light",
+        "fe": "want",
+        "mo": "I",
+        "wa": "is",
+        "nibolowa": "where is",
+        "osi": "left",
+        "fun_preposition": "for",
+        "si": "to",
+        "lati": "from",
+        "pade": "close",
+        "si_verb": "open",
+        "dina": "block",
+        "kaadi": "card"
+    },
+    "common_phrases": [
+        {
+            "text": "mo fe ran owo",
+            "english": "I want to send money",
+            "intent": "TRANSFER",
+            "confidence": 0.95
+        },
+        {
+            "text": "bawo ni owo mi se to",
+            "english": "how much is my money",
+            "intent": "BALANCE_INQUIRY",
+            "confidence": 0.95
+        },
+        {
+            "text": "mo fe ra airtime",
+            "english": "I want to buy airtime",
+            "intent": "AIRTIME_PURCHASE",
+            "confidence": 0.95
+        },
+        {
+            "text": "ejor san owo ina mi",
+            "english": "please pay my electricity bill",
+            "intent": "BILL_PAYMENT",
+            "confidence": 0.95
+        }
+    ],
+    "context_markers": {
+        "polite_request": [
+            "ejor",
+            "jowo"
+        ],
+        "desire": [
+            "mo fe",
+            "mo ni"
+        ],
+        "question": [
+            "kini",
+            "bawo",
+            "nibole"
+        ],
+        "confirmation": [
+            "abi",
+            "se"
+        ]
+    },
+    "metadata": {
+        "language": "yoruba",
+        "version": "1.0.0"
+    }
+}

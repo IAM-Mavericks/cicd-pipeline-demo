@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: Investment Insights API
+  version: 1.0.0
+  description: |
+    Portfolio metrics and recommendations for Nigerian Stock Exchange (NGX) portfolios.
+    All endpoints are protected with JWT Bearer authentication and scoped to the authenticated user.
+servers:
+  - url: https://api.vipay.com
+    description: Production server
+  - url: http://localhost:3000
+    description: Development server
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    RecommendationSignal:
+      type: object
+      required: [type, severity, message]
+      properties:
+        type:
+          type: string
+          example: "cash_drag"
+        severity:
+          type: string
+          enum: [info, warning, high]
+          example: "info"
+        message:
+          type: string
+          example: "High cash allocation (15%)"
+        suggestedAction:
+          type: string
+          example: "Consider deploying excess cash into investments"
+    
+    RecommendationAI:
+      type: object
+      required: [model, version, timestamp]
+      properties:
+        model:
+          type: string
+          example: "rule-based"
+        version:
+          type: string
+          example: "1.0.0"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-02-20T14:30:00Z"
+    
+    RecommendationSummary:
+      type: object
+      required: [score, riskLevel, keyFindings]
+      properties:
+        score:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          example: 75
+        riskLevel:
+          type: string
+          enum: [low, medium, high, unknown]
+          example: "medium"
+        keyFindings:
+          type: array
+          items:
+            type: string
+          example: ["Well-diversified portfolio"]
+    
+    ApiResponsePortfolioRecommendations:
+      type: object
+      required: [success, data]
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          required: [portfolioId, summary, signals, ai]
+          properties:
+            portfolioId:
+              type: string
+              example: "65ea1540d5504e3b1c8c3d7a"
+            summary:
+              $ref: "#/components/schemas/RecommendationSummary"
+            signals:
+              type: array
+              items:
+                $ref: "#/components/schemas/RecommendationSignal"
+            ai:
+              $ref: "#/components/schemas/RecommendationAI"
+  schemas:
+    ApiResponsePortfolioMetrics:
+      type: object
+      required: [success, data]
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          required: [portfolioId, metrics]
+          properties:
+            portfolioId:
+              type: string
+              description: Unique identifier of the portfolio
+              example: 65ea1540d5504e3b1c8c3d7a
+            metrics:
+              $ref: '#/components/schemas/PortfolioMetrics'
+    PortfolioMetrics:
+      type: object
+      required: [totals, returns, allocation, risk]
+      properties:
+        totals:
+          type: object
+          required: [totalValue, totalInvested, totalProfitLoss]
+          properties:
+            totalValue:
+              type: string
+              example: "1523400.55"
+            totalInvested:
+              type: string
+              example: "1350000.00"
+            totalProfitLoss:
+              type: string
+              example: "173400.55"
+        returns:
+          type: object
+          required: [totalReturnPct, totalReturnAmount]
+          properties:
+            totalReturnPct:
+              type: number
+              format: double
+              example: 12.84
+            totalReturnAmount:
+              type: string
+              example: "173400.55"
+        allocation:
+          type: object
+          required: [bySymbol, bySector]
+          properties:
+            bySymbol:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  weight:
+                    type: number
+                    format: double
+                    example: 0.37
+                  value:
+                    type: string
+                    example: "570000.00"
+              example:
+                MTNN:
+                  weight: 0.37
+                  value: "570000.00"
+                GTCO:
+                  weight: 0.21
+                  value: "320000.00"
+            bySector:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  weight:
+                    type: number
+                    format: double
+                    example: 0.42
+                  value:
+                    type: string
+                    example: "640000.00"
+              example:
+                Financials:
+                  weight: 0.42
+                  value: "640000.00"
+                Telecoms:
+                  weight: 0.37
+                  value: "570000.00"
+        risk:
+          type: object
+          required: [topHoldingWeight, topSectorWeight, herfindahlSymbol, herfindahlSector, riskLevel]
+          properties:
+            topHoldingWeight:
+              type: number
+              format: double
+              example: 0.37
+            topSectorWeight:
+              type: number
+              format: double
+              example: 0.42
+            herfindahlSymbol:
+              type: number
+              format: double
+              description: Herfindahl–Hirschman Index on symbol weights (0–1, higher = concentrated)
+              example: 0.29
+            herfindahlSector:
+              type: number
+              format: double
+              description: Herfindahl–Hirschman Index on sector weights
+              example: 0.34
+            riskLevel:
+              type: string
+              enum: [low, medium, high, unknown]
+              example: medium
+paths:
+  /api/investments/portfolio/{id}/recommendations:
+    get:
+      tags: [Investments]
+      summary: Get investment recommendations for a portfolio
+      operationId: getPortfolioRecommendations
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID (MongoDB ObjectId)
+      responses:
+        '200':
+          description: Portfolio recommendations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponsePortfolioRecommendations'
+        '401':
+          description: Missing or invalid JWT
+        '403':
+          description: Authenticated user does not own the portfolio
+        '404':
+          description: Portfolio not found
+        '500':
+          description: Server error while generating recommendations
+
+  /api/investments/portfolio/{id}/metrics:
+    get:
+      tags: [Investments]
+      summary: Get metrics for a specific portfolio
+      operationId: getPortfolioMetrics
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Portfolio ID (MongoDB ObjectId)
+      responses:
+        '200':
+          description: Portfolio metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponsePortfolioMetrics'
+        '401':
+          description: Missing or invalid JWT
+        '403':
+          description: Authenticated user does not own the portfolio
+        '404':
+          description: Portfolio not found

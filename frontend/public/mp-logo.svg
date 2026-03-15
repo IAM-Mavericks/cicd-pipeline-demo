@@ -1,0 +1,42 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient Ring: Blue -> Purple -> Pink -> Cyan -->
+    <linearGradient id="ringGradientLarge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B8CFF;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#8B7FFF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#B87FFF;stop-opacity:1" />
+      <stop offset="62%" style="stop-color:#E879D9;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="87%" style="stop-color:#7DD3C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- MP Text Gradient: Green -> Cyan -> Blue -->
+    <linearGradient id="mpTextGradientLarge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow Filter -->
+    <filter id="glowLarge" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer Glow -->
+  <circle cx="60" cy="60" r="54" fill="none" stroke="url(#ringGradientLarge)" stroke-width="4" opacity="0.3" filter="url(#glowLarge)"/>
+  
+  <!-- Main Gradient Ring -->
+  <circle cx="60" cy="60" r="51" fill="none" stroke="url(#ringGradientLarge)" stroke-width="9" opacity="0.95"/>
+  
+  <!-- Inner White/Light Circle -->
+  <circle cx="60" cy="60" r="43.5" fill="#F0F4FF" opacity="0.98"/>
+  
+  <!-- MP Text -->
+  <text x="60" y="79.5" font-family="Georgia, serif" font-size="48" font-weight="bold" text-anchor="middle" fill="url(#mpTextGradientLarge)" letter-spacing="-1.5">MP</text>
+</svg>

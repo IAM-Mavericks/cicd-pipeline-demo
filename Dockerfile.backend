@@ -1,0 +1,41 @@
+# ─── STAGE 1: Dependencies ─────────────────────────────
+FROM node:20-alpine AS deps
+
+WORKDIR /app
+
+# Copy package files first (layer caching — only reinstalls if deps change)
+COPY backend/package*.json ./
+
+# Install production dependencies only
+RUN npm ci --only=production
+
+# ─── STAGE 2: Runner ───────────────────────────────────
+FROM node:20-alpine AS runner
+
+# Security: run as non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodeuser -u 1001
+
+WORKDIR /app
+
+# Copy production deps from stage 1
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy application source
+COPY backend/ .
+
+# Set ownership
+RUN chown -R nodeuser:nodejs /app
+
+# Switch to non-root user
+USER nodeuser
+
+# Expose API port
+EXPOSE 5000
+
+# Health check — Docker monitors this
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD wget -qO- http://localhost:5000/health || exit 1
+
+# Start the server
+CMD ["node", "server.js"]

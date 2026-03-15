@@ -1,0 +1,55 @@
+{
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Requests",
+      "targets": [
+        { "expr": "sznpay_requests_total", "legendFormat": "total" },
+        { "expr": "sznpay_requests_errors_total", "legendFormat": "errors" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Uptime (s)",
+      "targets": [ { "expr": "sznpay_uptime_seconds" } ]
+    },
+    {
+      "type": "graph",
+      "title": "Webhook Ingested",
+      "targets": [
+        { "expr": "sznpay_webhooks_ingested_total{provider=\"paystack\"}", "legendFormat": "paystack" },
+        { "expr": "sznpay_webhooks_ingested_total{provider=\"flutterwave\"}", "legendFormat": "flutterwave" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Provider Success/Failures",
+      "targets": [
+        { "expr": "sznpay_provider_successes_total{provider=\"paystack\"}", "legendFormat": "paystack success" },
+        { "expr": "sznpay_provider_failures_total{provider=\"paystack\"}", "legendFormat": "paystack failures" },
+        { "expr": "sznpay_provider_successes_total{provider=\"flutterwave\"}", "legendFormat": "flutterwave success" },
+        { "expr": "sznpay_provider_failures_total{provider=\"flutterwave\"}", "legendFormat": "flutterwave failures" }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Webhook Success Rate (5m)",
+      "targets": [
+        { "expr": "(sznpay_provider_successes_total{provider=\"paystack\"} - sznpay_provider_successes_total{provider=\"paystack\"} offset 5m) / ((sznpay_provider_successes_total{provider=\"paystack\"} - sznpay_provider_successes_total{provider=\"paystack\"} offset 5m) + (sznpay_provider_failures_total{provider=\"paystack\"} - sznpay_provider_failures_total{provider=\"paystack\"} offset 5m))", "legendFormat": "paystack SLO" },
+        { "expr": "(sznpay_provider_successes_total{provider=\"flutterwave\"} - sznpay_provider_successes_total{provider=\"flutterwave\"} offset 5m) / ((sznpay_provider_successes_total{provider=\"flutterwave\"} - sznpay_provider_successes_total{provider=\"flutterwave\"} offset 5m) + (sznpay_provider_failures_total{provider=\"flutterwave\"} - sznpay_provider_failures_total{provider=\"flutterwave\"} offset 5m))", "legendFormat": "flutterwave SLO" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Circuit Breaker Open (s)",
+      "targets": [
+        { "expr": "sznpay_breaker_open_seconds{provider=\"paystack\"}", "legendFormat": "paystack" },
+        { "expr": "sznpay_breaker_open_seconds{provider=\"flutterwave\"}", "legendFormat": "flutterwave" }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "title": "SznPay Provider Health",
+  "version": 1
+}

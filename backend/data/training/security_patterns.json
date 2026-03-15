@@ -1,0 +1,258 @@
+{
+  "suspicious_patterns": {
+    "phishing_keywords": [
+      "verify your account",
+      "urgent action required",
+      "account will be closed",
+      "click here immediately",
+      "confirm your password",
+      "update your information",
+      "suspended account",
+      "unusual activity detected",
+      "verify your identity",
+      "claim your prize",
+      "you have won",
+      "free money",
+      "act now",
+      "limited time offer",
+      "send your PIN",
+      "share your OTP",
+      "confirm your BVN"
+    ],
+    "social_engineering_phrases": [
+      "I'm from the bank",
+      "this is urgent",
+      "don't tell anyone",
+      "you're in trouble",
+      "help me quickly",
+      "trust me",
+      "special offer just for you",
+      "you've been selected",
+      "government official",
+      "police investigation"
+    ],
+    "fraud_indicators": {
+      "transaction": [
+        "round numbers (₦100,000, ₦500,000)",
+        "rapid succession of transfers",
+        "unusual transaction times",
+        "new recipient with large amount",
+        "amount exceeds 3x average",
+        "multiple failed attempts before success"
+      ],
+      "behavioral": [
+        "sudden change in transaction pattern",
+        "login from new location",
+        "device fingerprint mismatch",
+        "VPN or proxy usage",
+        "multiple accounts from same device",
+        "rapid account creation and transaction"
+      ],
+      "communication": [
+        "urgency in messages",
+        "requests to bypass security",
+        "asking for credentials",
+        "pressure to act quickly",
+        "threats or intimidation",
+        "too-good-to-be-true offers"
+      ]
+    }
+  },
+  "security_questions": {
+    "user_education": [
+      {
+        "question": "Is this transaction safe?",
+        "triggers": ["safe", "secure", "trust", "legitimate"],
+        "response": "Let me help you verify. Check these red flags:\n• Is the recipient someone you know?\n• Did you initiate this transaction?\n• Does the amount seem correct?\n• Are you being pressured to act quickly?\n\nIf anything seems suspicious, stop and verify through official channels."
+      },
+      {
+        "question": "Someone is asking for my PIN",
+        "triggers": ["asking for PIN", "share PIN", "give PIN", "send PIN"],
+        "response": "🚨 STOP! This is a scam. NEVER share your PIN with anyone, including:\n• Bank staff\n• Customer support\n• Family or friends\n• Anyone claiming to be from SznPay\n\nYour PIN is for your eyes only. Report this attempt immediately."
+      },
+      {
+        "question": "I received a suspicious message",
+        "triggers": ["suspicious message", "weird SMS", "strange email", "phishing"],
+        "response": "⚠️ Good catch! Here's what to do:\n1. Don't click any links\n2. Don't reply or provide information\n3. Don't call any numbers in the message\n4. Forward it to us for verification\n5. Delete the message\n\nWe'll never ask for sensitive info via message."
+      },
+      {
+        "question": "How do I know if a transaction is fraudulent?",
+        "triggers": ["fraudulent", "scam", "fake transaction", "unauthorized"],
+        "response": "🛡️ Watch for these fraud indicators:\n• You didn't authorize it\n• Unusual amount or recipient\n• Strange transaction time\n• Multiple rapid transactions\n• Recipient you don't recognize\n\nIf you see any of these, contact us immediately to block your account."
+      },
+      {
+        "question": "What is phishing?",
+        "triggers": ["what is phishing", "explain phishing", "phishing meaning"],
+        "response": "🎣 Phishing is when scammers pretend to be legitimate organizations to steal your information.\n\nCommon phishing tactics:\n• Fake emails/SMS from 'your bank'\n• Links to fake websites\n• Requests for passwords or PINs\n• Urgent threats about account closure\n\nAlways verify through official channels!"
+      },
+      {
+        "question": "How can I protect my account?",
+        "triggers": ["protect account", "secure account", "safety tips", "security tips"],
+        "response": "🔐 Essential security tips:\n1. Use strong, unique passwords\n2. Enable 2FA/biometric auth\n3. Never share PIN or OTP\n4. Check account regularly\n5. Use official apps only\n6. Keep contact info updated\n7. Report suspicious activity\n8. Avoid public WiFi for banking\n\nYour security is our priority!"
+      }
+    ],
+    "threat_detection": [
+      {
+        "pattern": "send money to verify",
+        "threat_type": "advance_fee_fraud",
+        "severity": "high",
+        "response": "🚨 SCAM ALERT! This is advance fee fraud. Legitimate services NEVER ask you to send money to verify your account or claim prizes. Block this sender and report to us immediately."
+      },
+      {
+        "pattern": "won lottery|won prize|congratulations you won",
+        "threat_type": "lottery_scam",
+        "severity": "high",
+        "response": "⚠️ This is a lottery scam! You can't win a lottery you didn't enter. They'll ask for 'processing fees' but you'll never see the prize. Delete and block."
+      },
+      {
+        "pattern": "click this link|verify here|update here",
+        "threat_type": "phishing",
+        "severity": "critical",
+        "response": "🚨 PHISHING ATTEMPT! Don't click that link. It leads to a fake website designed to steal your credentials. SznPay will never send links asking for login info."
+      },
+      {
+        "pattern": "account suspended|account blocked|account locked",
+        "threat_type": "phishing",
+        "severity": "high",
+        "response": "⚠️ Scam alert! Fraudsters use fear tactics. If your account was really suspended, you wouldn't be able to log in. Verify through the official app, not through links in messages."
+      },
+      {
+        "pattern": "send OTP|share OTP|what is your OTP",
+        "threat_type": "otp_theft",
+        "severity": "critical",
+        "response": "🚨 STOP! NEVER share your OTP with anyone! This is a scam. OTPs are for your use only. Even SznPay staff will never ask for your OTP. Report this immediately."
+      }
+    ]
+  },
+  "risk_scoring_rules": {
+    "transaction_risk": [
+      {
+        "condition": "amount > user_average * 3",
+        "risk_points": 30,
+        "description": "Transaction amount significantly higher than normal"
+      },
+      {
+        "condition": "new_recipient && amount > 50000",
+        "risk_points": 25,
+        "description": "Large transfer to new recipient"
+      },
+      {
+        "condition": "transaction_time between 2am and 6am",
+        "risk_points": 20,
+        "description": "Transaction during unusual hours"
+      },
+      {
+        "condition": "transactions_count_last_hour > 5",
+        "risk_points": 35,
+        "description": "High velocity of transactions"
+      },
+      {
+        "condition": "round_number && amount >= 100000",
+        "risk_points": 15,
+        "description": "Large round number transaction (common in fraud)"
+      },
+      {
+        "condition": "device_fingerprint_mismatch",
+        "risk_points": 40,
+        "description": "Transaction from unrecognized device"
+      },
+      {
+        "condition": "location_mismatch",
+        "risk_points": 30,
+        "description": "Transaction from unusual location"
+      },
+      {
+        "condition": "failed_attempts > 2",
+        "risk_points": 25,
+        "description": "Multiple failed authentication attempts"
+      }
+    ],
+    "account_risk": [
+      {
+        "condition": "account_age < 7_days",
+        "risk_points": 20,
+        "description": "New account"
+      },
+      {
+        "condition": "kyc_incomplete",
+        "risk_points": 30,
+        "description": "KYC verification not completed"
+      },
+      {
+        "condition": "suspicious_activity_history",
+        "risk_points": 50,
+        "description": "Previous suspicious activity on account"
+      },
+      {
+        "condition": "multiple_devices > 5",
+        "risk_points": 25,
+        "description": "Account accessed from many devices"
+      }
+    ],
+    "risk_levels": {
+      "low": {
+        "range": "0-30",
+        "action": "allow",
+        "auth_required": "PIN only"
+      },
+      "medium": {
+        "range": "31-60",
+        "action": "challenge",
+        "auth_required": "PIN + OTP"
+      },
+      "high": {
+        "range": "61-80",
+        "action": "enhanced_verification",
+        "auth_required": "PIN + OTP + Biometric"
+      },
+      "critical": {
+        "range": "81-100",
+        "action": "block_and_review",
+        "auth_required": "Manual review required"
+      }
+    }
+  },
+  "automated_responses": {
+    "security_alerts": {
+      "unusual_login": {
+        "trigger": "login from new device or location",
+        "message": "⚠️ We noticed a login from a new device in {location}. Was this you?\n\nIf not, secure your account immediately:\n1. Change your password\n2. Review recent activity\n3. Contact support\n\nIf this was you, you can mark this device as trusted.",
+        "actions": ["send_otp", "require_verification", "log_event"]
+      },
+      "high_risk_transaction": {
+        "trigger": "risk score > 60",
+        "message": "🛡️ For your security, we need to verify this transaction.\n\nTransaction details:\n• Amount: {amount}\n• Recipient: {recipient}\n• Risk level: {risk_level}\n\nPlease confirm:\n1. You initiated this transaction\n2. The recipient details are correct\n3. You're not being coerced\n\nEnter your PIN + OTP to proceed.",
+        "actions": ["require_mfa", "log_high_risk", "notify_security_team"]
+      },
+      "account_takeover_suspected": {
+        "trigger": "multiple failed logins + device mismatch",
+        "message": "🚨 SECURITY ALERT: Suspicious activity detected on your account.\n\nFor your protection:\n• Your account has been temporarily locked\n• All transactions are suspended\n• We've sent a verification code to your registered phone\n\nTo unlock, verify your identity through the app or contact support immediately.",
+        "actions": ["lock_account", "send_sms", "notify_user", "alert_security_team"]
+      },
+      "sim_swap_detected": {
+        "trigger": "sudden network change + otp requests",
+        "message": "🚨 CRITICAL SECURITY ALERT: Possible SIM swap attack detected.\n\nImmediate actions taken:\n• Account frozen\n• All transactions blocked\n• Security team notified\n\nIf you did not request a SIM change:\n1. Contact your network provider immediately\n2. Contact SznPay support\n3. File a police report\n\nDo NOT attempt to access your account until verified.",
+        "actions": ["freeze_account", "block_all_transactions", "escalate_to_security", "notify_law_enforcement"]
+      }
+    },
+    "educational_prompts": {
+      "first_transaction": {
+        "message": "🎓 Security Tip: Before sending money, always:\n✓ Verify recipient details\n✓ Double-check the amount\n✓ Ensure you trust the recipient\n✓ Never share your PIN or OTP\n\nStay safe!"
+      },
+      "large_transaction": {
+        "message": "💡 Sending a large amount? Remember:\n• Verify recipient through another channel\n• Save trusted beneficiaries for future\n• Enable transaction notifications\n• Report if anything seems suspicious"
+      },
+      "new_device": {
+        "message": "🔐 New device detected! Security reminders:\n• Use strong passwords\n• Enable biometric login\n• Don't save passwords in browser\n• Log out when done\n• Report lost devices immediately"
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-10",
+    "pattern_categories": 4,
+    "risk_rules": 12,
+    "automated_responses": 7,
+    "description": "Security patterns and automated response rules for threat detection"
+  }
+}

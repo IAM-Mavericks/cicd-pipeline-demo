@@ -1,0 +1,75 @@
+{
+    "translations": {
+        "gini": "what",
+        "biko": "please",
+        "nye": "give",
+        "zipu": "send",
+        "buru": "buy",
+        "kwuo": "pay",
+        "kedu": "how",
+        "otu": "how",
+        "nwere": "have",
+        "akawụntụ": "account",
+        "ego": "money",
+        "ọkụ": "light",
+        "chọrọ": "want",
+        "m": "I",
+        "gi": "you",
+        "na": "in",
+        "maka": "for",
+        "site": "from",
+        "ga": "to",
+        "mechie": "close",
+        "meghee": "open",
+        "gbochie": "block",
+        "kaadị": "card"
+    },
+    "common_phrases": [
+        {
+            "text": "achọrọ m izipu ego",
+            "english": "I want to send money",
+            "intent": "TRANSFER",
+            "confidence": 0.95
+        },
+        {
+            "text": "ego ole ka m nwere",
+            "english": "how much money do I have",
+            "intent": "BALANCE_INQUIRY",
+            "confidence": 0.95
+        },
+        {
+            "text": "achọrọ m ịzụta airtime",
+            "english": "I want to buy airtime",
+            "intent": "AIRTIME_PURCHASE",
+            "confidence": 0.95
+        },
+        {
+            "text": "biko kwuo ụgwọ ọkụ m",
+            "english": "please pay my light bill",
+            "intent": "BILL_PAYMENT",
+            "confidence": 0.95
+        }
+    ],
+    "context_markers": {
+        "polite_request": [
+            "biko"
+        ],
+        "desire": [
+            "achọrọ m",
+            "chọrọ"
+        ],
+        "question": [
+            "kedu",
+            "gini",
+            "ole"
+        ],
+        "confirmation": [
+            "ka ọ",
+            "ọ bụ"
+        ]
+    },
+    "metadata": {
+        "language": "igbo",
+        "version": "1.0.0"
+    }
+}

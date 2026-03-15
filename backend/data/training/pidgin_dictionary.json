@@ -1,0 +1,374 @@
+{
+  "pidgin_translations": {
+    "wetin": "what",
+    "dey": "is",
+    "abeg": "please",
+    "make": "let",
+    "you": "you",
+    "na": "is",
+    "am": "it",
+    "don": "have",
+    "wan": "want",
+    "fit": "can",
+    "go": "will",
+    "come": "come",
+    "give": "to",
+    "carry": "take",
+    "show": "show",
+    "see": "see",
+    "buy": "buy",
+    "pay": "pay",
+    "send": "send",
+    "check": "check",
+    "how": "how",
+    "much": "much",
+    "money": "money",
+    "account": "account",
+    "balance": "balance",
+    "credit": "airtime",
+    "load": "recharge",
+    "for": "for",
+    "inside": "in",
+    "get": "have",
+    "help": "help",
+    "me": "me",
+    "my": "my",
+    "your": "your",
+    "this": "this",
+    "that": "that",
+    "no": "no",
+    "yes": "yes",
+    "abi": "right",
+    "shey": "is it",
+    "oya": "okay",
+    "comot": "remove",
+    "put": "add",
+    "plenty": "much",
+    "small": "little",
+    "big": "large",
+    "bank": "bank",
+    "save": "save",
+    "kolo": "savings",
+    "investment": "investment",
+    "profit": "gain",
+    "loss": "loss",
+    "borrow": "borrow",
+    "loan": "loan",
+    "owe": "owe",
+    "gbese": "debt",
+    "interest": "interest",
+    "limit": "limit",
+    "error": "mistake",
+    "fix": "repair",
+    "network": "network",
+    "service": "service",
+    "poor": "bad",
+    "rich": "good",
+    "transaction": "transaction",
+    "receipt": "receipt",
+    "evidence": "proof",
+    "alert": "notification",
+    "debit": "debit",
+    "fail": "fail",
+    "pending": "wait",
+    "successful": "enter",
+    "card": "card",
+    "block": "block",
+    "unlock": "open",
+    "pin": "pin",
+    "password": "password",
+    "code": "code",
+    "otp": "otp",
+    "fraud": "wayo",
+    "thief": "ole",
+    "scam": "419",
+    "customer": "customer",
+    "care": "care",
+    "support": "support",
+    "agent": "agent",
+    "branch": "branch",
+    "machine": "atm",
+    "pos": "pos"
+  },
+  "common_phrases": [
+    {
+      "pidgin": "wetin dey my account",
+      "english": "what is in my account",
+      "intent": "BALANCE_INQUIRY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "how much I get",
+      "english": "how much do I have",
+      "intent": "BALANCE_INQUIRY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg check my balance",
+      "english": "please check my balance",
+      "intent": "BALANCE_INQUIRY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "make you show me my money",
+      "english": "please show me my money",
+      "intent": "BALANCE_INQUIRY",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "I wan know my balance",
+      "english": "I want to know my balance",
+      "intent": "BALANCE_INQUIRY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg send {amount} give {recipient}",
+      "english": "please send {amount} to {recipient}",
+      "intent": "TRANSFER",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "make you transfer {amount} to {account}",
+      "english": "please transfer {amount} to {account}",
+      "intent": "TRANSFER",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "I wan send {amount} to {recipient}",
+      "english": "I want to send {amount} to {recipient}",
+      "intent": "TRANSFER",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg carry {amount} give {recipient}",
+      "english": "please take {amount} to {recipient}",
+      "intent": "TRANSFER",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "make you pay my {biller}",
+      "english": "please pay my {biller}",
+      "intent": "BILL_PAYMENT",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg pay my {biller} bill",
+      "english": "please pay my {biller} bill",
+      "intent": "BILL_PAYMENT",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "I wan pay {biller}",
+      "english": "I want to pay {biller}",
+      "intent": "BILL_PAYMENT",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg help me pay my light bill",
+      "english": "please help me pay my electricity bill",
+      "intent": "BILL_PAYMENT",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "I wan buy {amount} credit",
+      "english": "I want to buy {amount} airtime",
+      "intent": "AIRTIME_PURCHASE",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "abeg buy {amount} {network} for me",
+      "english": "please buy {amount} {network} for me",
+      "intent": "AIRTIME_PURCHASE",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "make you buy airtime for me",
+      "english": "please buy airtime for me",
+      "intent": "AIRTIME_PURCHASE",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "abeg load {amount} for {phone}",
+      "english": "please recharge {amount} for {phone}",
+      "intent": "AIRTIME_PURCHASE",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "show me wetin I don do",
+      "english": "show me what I have done",
+      "intent": "TRANSACTION_HISTORY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "make you show me my history",
+      "english": "please show me my history",
+      "intent": "TRANSACTION_HISTORY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "I wan see my transactions",
+      "english": "I want to see my transactions",
+      "intent": "TRANSACTION_HISTORY",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "wetin I don spend",
+      "english": "what have I spent",
+      "intent": "TRANSACTION_HISTORY",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "my transaction fail but dem debit me",
+      "english": "my transaction failed but I was debited",
+      "intent": "TRANSACTION_ISSUE",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "I wan block my card",
+      "english": "I want to block my card",
+      "intent": "CARD_MANAGEMENT",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "I forget my pin",
+      "english": "I forgot my pin",
+      "intent": "SECURITY_ISSUE",
+      "confidence": 0.95
+    },
+    {
+      "pidgin": "borrow me money",
+      "english": "lend me money",
+      "intent": "LOAN_REQUEST",
+      "confidence": 0.9
+    },
+    {
+      "pidgin": "I wan save inside my kolo",
+      "english": "I want to save in my savings",
+      "intent": "SAVINGS_DEPOSIT",
+      "confidence": 0.95
+    }
+  ],
+  "slang_variations": {
+    "money": [
+      "moni",
+      "kudi",
+      "owo",
+      "ego"
+    ],
+    "send": [
+      "sen",
+      "carry go"
+    ],
+    "buy": [
+      "buy",
+      "get"
+    ],
+    "pay": [
+      "pay",
+      "settle"
+    ],
+    "account": [
+      "account",
+      "akant"
+    ],
+    "balance": [
+      "balance",
+      "balans"
+    ],
+    "please": [
+      "abeg",
+      "biko",
+      "ejor"
+    ],
+    "help": [
+      "help",
+      "helep"
+    ],
+    "want": [
+      "wan",
+      "want"
+    ],
+    "show": [
+      "show",
+      "sho"
+    ],
+    "check": [
+      "check",
+      "chek"
+    ]
+  },
+  "regional_variations": {
+    "lagos": {
+      "money": "owo",
+      "please": "ejor",
+      "thank_you": "e se"
+    },
+    "igbo": {
+      "money": "ego",
+      "please": "biko",
+      "thank_you": "dalu"
+    },
+    "hausa": {
+      "money": "kudi",
+      "please": "don Allah",
+      "thank_you": "nagode"
+    }
+  },
+  "grammar_rules": {
+    "word_order": {
+      "subject_verb_object": true,
+      "flexible_word_order": true
+    },
+    "common_structures": [
+      "{action} {object}",
+      "abeg {action} {object}",
+      "make you {action} {object}",
+      "I wan {action} {object}",
+      "{action} {object} for me"
+    ]
+  },
+  "context_markers": {
+    "polite_request": [
+      "abeg",
+      "make you",
+      "help me"
+    ],
+    "desire": [
+      "I wan",
+      "I need",
+      "I fit",
+      "wan",
+      "kolo",
+      "gbese",
+      "fit"
+    ],
+    "question": [
+      "wetin",
+      "how",
+      "where",
+      "when"
+    ],
+    "confirmation": [
+      "abi",
+      "shey",
+      "na so"
+    ],
+    "urgency": [
+      "quick",
+      "sharp sharp",
+      "now now"
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-10",
+    "total_translations": 45,
+    "total_phrases": 21,
+    "regions_covered": [
+      "Lagos",
+      "Igbo",
+      "Hausa"
+    ],
+    "description": "Nigerian Pidgin English dictionary and translation rules"
+  }
+}

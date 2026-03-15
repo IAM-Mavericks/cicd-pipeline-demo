@@ -1,0 +1,74 @@
+{
+    "translations": {
+        "nini": "what",
+        "tafadhali": "please",
+        "kutoa": "give",
+        "tuma": "send",
+        "nunua": "buy",
+        "lipa": "pay",
+        "vipi": "how",
+        "ngapi": "how many",
+        "akaunti": "account",
+        "pesa": "money",
+        "umeme": "light",
+        "taka": "want",
+        "mimi": "I",
+        "wewe": "you",
+        "katika": "in",
+        "kwa": "for",
+        "kutoka": "from",
+        "kwenda": "to",
+        "funga": "close",
+        "fungua": "open",
+        "zuia": "block",
+        "kadi": "card"
+    },
+    "common_phrases": [
+        {
+            "text": "nataka kutuma pesa",
+            "english": "I want to send money",
+            "intent": "TRANSFER",
+            "confidence": 0.95
+        },
+        {
+            "text": "nina pesa ngapi",
+            "english": "how much money do I have",
+            "intent": "BALANCE_INQUIRY",
+            "confidence": 0.95
+        },
+        {
+            "text": "nataka kununua muda wa maongezi",
+            "english": "I want to buy airtime",
+            "intent": "AIRTIME_PURCHASE",
+            "confidence": 0.95
+        },
+        {
+            "text": "tafadhali lipa bili yangu ya umeme",
+            "english": "please pay my electricity bill",
+            "intent": "BILL_PAYMENT",
+            "confidence": 0.95
+        }
+    ],
+    "context_markers": {
+        "polite_request": [
+            "tafadhali"
+        ],
+        "desire": [
+            "nataka",
+            "nahitaji"
+        ],
+        "question": [
+            "nini",
+            "vipi",
+            "wapi"
+        ],
+        "confirmation": [
+            "ndiyo",
+            "sivyo"
+        ]
+    },
+    "metadata": {
+        "language": "swahili",
+        "version": "1.0.0"
+    }
+}

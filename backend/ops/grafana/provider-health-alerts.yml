@@ -1,0 +1,45 @@
+groups:
+  - name: sznpay-provider-health
+    rules:
+      - alert: ProviderFailuresHigh
+        expr: sznpay_provider_failures_total{provider="paystack"} - sznpay_provider_failures_total{provider="paystack"} offset 5m > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: High Paystack failures in last 5m
+      - alert: ProviderFailuresHighFlutterwave
+        expr: sznpay_provider_failures_total{provider="flutterwave"} - sznpay_provider_failures_total{provider="flutterwave"} offset 5m > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: High Flutterwave failures in last 5m
+      - alert: ErrorRateElevated
+        expr: (sznpay_requests_errors_total - sznpay_requests_errors_total offset 5m) / (sznpay_requests_total - sznpay_requests_total offset 5m) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Error rate above 10% in last 5m
+      - alert: BreakerOpenPaystack
+        expr: sznpay_breaker_open_seconds{provider="paystack"} > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Paystack circuit breaker is open
+      - alert: BreakerOpenFlutterwave
+        expr: sznpay_breaker_open_seconds{provider="flutterwave"} > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Flutterwave circuit breaker is open
+      - alert: ProviderSLOBelowTarget
+        expr: 1 - ((sznpay_provider_successes_total - sznpay_provider_successes_total offset 30m) / ((sznpay_provider_successes_total - sznpay_provider_successes_total offset 30m) + (sznpay_provider_failures_total - sznpay_provider_failures_total offset 30m))) > 0.05
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: Provider SLO below 95% in last 30m

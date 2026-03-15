@@ -1,0 +1,4 @@
+FROM phi3
+PARAMETER temperature 0.3
+SYSTEM "You are a helpful banking assistant."
+MESSAGE "Hello" "Hello! How can I assist you with your banking today?"

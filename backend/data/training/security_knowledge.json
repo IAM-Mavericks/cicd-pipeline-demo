@@ -1,0 +1,455 @@
+{
+  "security_threats": {
+    "phishing": {
+      "description": "Fraudulent attempts to obtain sensitive information by disguising as a trustworthy entity",
+      "indicators": [
+        "suspicious links in messages",
+        "requests for PIN or password",
+        "urgent payment requests",
+        "spelling errors in official communications",
+        "unknown sender requesting account details",
+        "too-good-to-be-true offers",
+        "threats or pressure tactics"
+      ],
+      "examples": [
+        "Someone claiming to be from the bank asking for your PIN",
+        "Email saying your account will be closed unless you click a link",
+        "SMS asking you to verify your BVN by replying with details",
+        "WhatsApp message offering free money if you share your account number"
+      ],
+      "responses": [
+        "⚠️ This looks like a phishing attempt. Never share your PIN, password, or OTP with anyone.",
+        "🚨 Warning: Legitimate banks never ask for your PIN via message or call.",
+        "🛡️ Security Alert: This request appears suspicious. Always verify through official channels."
+      ],
+      "severity": "high",
+      "action": "block_and_alert"
+    },
+    "social_engineering": {
+      "description": "Manipulation tactics to trick users into revealing confidential information",
+      "indicators": [
+        "impersonation of authority figures",
+        "creating sense of urgency",
+        "exploiting trust relationships",
+        "pretexting (creating false scenarios)",
+        "baiting with rewards or prizes"
+      ],
+      "examples": [
+        "Caller claiming to be bank manager needing urgent verification",
+        "Message saying you won a lottery but need to pay processing fee",
+        "Someone pretending to be IT support asking for login credentials"
+      ],
+      "responses": [
+        "⚠️ This appears to be a social engineering attempt. Verify the identity through official channels.",
+        "🚨 Never make urgent financial decisions based on unexpected calls or messages.",
+        "🛡️ SznPay will never ask you to transfer money to verify your account."
+      ],
+      "severity": "high",
+      "action": "warn_and_educate"
+    },
+    "account_takeover": {
+      "description": "Unauthorized access to user accounts through stolen credentials",
+      "indicators": [
+        "login from unusual location",
+        "multiple failed login attempts",
+        "device fingerprint mismatch",
+        "unusual transaction patterns",
+        "password reset requests not initiated by user",
+        "changes to account details"
+      ],
+      "examples": [
+        "Login attempt from a new device in a different country",
+        "5 failed password attempts in 10 minutes",
+        "Sudden change of email or phone number"
+      ],
+      "responses": [
+        "🚨 Suspicious activity detected. Your account has been temporarily locked.",
+        "⚠️ We noticed a login attempt from an unusual location. Was this you?",
+        "🛡️ For your security, please verify this activity."
+      ],
+      "severity": "critical",
+      "action": "lock_account_and_notify"
+    },
+    "transaction_fraud": {
+      "description": "Unauthorized or fraudulent financial transactions",
+      "indicators": [
+        "transaction amount exceeds normal pattern",
+        "rapid succession of transactions",
+        "transactions to high-risk recipients",
+        "unusual transaction times (2-6 AM)",
+        "transactions to new recipients",
+        "round-number transactions (often fraud)"
+      ],
+      "examples": [
+        "Transfer of ₦500,000 when average is ₦10,000",
+        "10 transactions within 5 minutes",
+        "Transaction at 3 AM when user normally transacts during day"
+      ],
+      "responses": [
+        "⚠️ This transaction appears unusual. Please confirm it's legitimate.",
+        "🚨 Fraud alert: This transaction pattern is suspicious.",
+        "🛡️ For your protection, we need additional verification."
+      ],
+      "severity": "high",
+      "action": "require_additional_auth"
+    },
+    "malware": {
+      "description": "Malicious software designed to damage or gain unauthorized access",
+      "indicators": [
+        "requests to download unknown apps",
+        "suspicious APK files",
+        "screen overlay attacks",
+        "keylogger detection",
+        "rooted/jailbroken devices"
+      ],
+      "examples": [
+        "App requesting unnecessary permissions",
+        "Banking app asking to install from unknown source",
+        "Suspicious overlay on login screen"
+      ],
+      "responses": [
+        "🚨 Potential malware detected. Only download SznPay from official app stores.",
+        "⚠️ Your device may be compromised. Please scan for malware.",
+        "🛡️ For security, we don't support rooted or jailbroken devices."
+      ],
+      "severity": "critical",
+      "action": "block_access_and_alert"
+    },
+    "sim_swap": {
+      "description": "Fraudsters transfer victim's phone number to a new SIM card",
+      "indicators": [
+        "sudden loss of mobile network",
+        "OTP requests not initiated by user",
+        "phone number change requests",
+        "multiple OTP failures"
+      ],
+      "examples": [
+        "User's phone suddenly shows 'No Service'",
+        "OTP codes being received but user didn't request them"
+      ],
+      "responses": [
+        "🚨 Critical: Possible SIM swap attack detected. Contact us immediately.",
+        "⚠️ Your phone number may have been compromised. Verify with your network provider.",
+        "🛡️ All transactions have been suspended for your protection."
+      ],
+      "severity": "critical",
+      "action": "freeze_account_immediately"
+    }
+  },
+  "security_best_practices": {
+    "password_security": {
+      "rules": [
+        "Minimum 8 characters",
+        "Mix of uppercase, lowercase, numbers, and symbols",
+        "No common words or personal information",
+        "Different passwords for different accounts",
+        "Change passwords every 90 days",
+        "Never share passwords with anyone"
+      ],
+      "tips": [
+        "Use a password manager",
+        "Enable two-factor authentication",
+        "Avoid writing passwords down",
+        "Don't use the same password across sites"
+      ],
+      "weak_patterns": [
+        "123456",
+        "password",
+        "qwerty",
+        "name + birthdate",
+        "sequential numbers",
+        "keyboard patterns"
+      ]
+    },
+    "transaction_security": {
+      "rules": [
+        "Always verify recipient details before sending money",
+        "Double-check account numbers",
+        "Be cautious with new recipients",
+        "Set transaction limits",
+        "Enable transaction notifications",
+        "Review statements regularly"
+      ],
+      "tips": [
+        "Save trusted beneficiaries",
+        "Use transaction PINs",
+        "Enable biometric authentication",
+        "Report suspicious transactions immediately"
+      ]
+    },
+    "device_security": {
+      "rules": [
+        "Keep your device updated",
+        "Install apps only from official stores",
+        "Use device lock (PIN, fingerprint, face ID)",
+        "Don't root or jailbreak your device",
+        "Install antivirus software",
+        "Avoid public WiFi for banking"
+      ],
+      "tips": [
+        "Enable remote wipe capability",
+        "Backup your data regularly",
+        "Use VPN on public networks",
+        "Log out after each session"
+      ]
+    },
+    "communication_security": {
+      "rules": [
+        "Never share OTP codes",
+        "Don't click suspicious links",
+        "Verify sender identity",
+        "Be skeptical of urgent requests",
+        "Use official channels only",
+        "Report phishing attempts"
+      ],
+      "tips": [
+        "SznPay will never ask for your PIN",
+        "We'll never ask you to transfer money to verify your account",
+        "Always check the sender's email/number",
+        "When in doubt, contact us directly"
+      ]
+    }
+  },
+  "security_education": {
+    "common_scams": [
+      {
+        "name": "Fake Bank Alert",
+        "description": "Fraudsters send fake credit alerts to trick merchants",
+        "how_it_works": "Scammer shows fake SMS or email claiming payment was made",
+        "prevention": "Always verify payments in your actual bank app, not SMS",
+        "example": "Someone buys goods and shows a fake ₦50,000 credit alert"
+      },
+      {
+        "name": "Romance Scam",
+        "description": "Fraudster builds romantic relationship then asks for money",
+        "how_it_works": "Create fake profile, build trust over time, then request financial help",
+        "prevention": "Never send money to someone you haven't met in person",
+        "example": "Online partner asks for money for emergency medical bills"
+      },
+      {
+        "name": "Investment Scam",
+        "description": "Ponzi schemes promising unrealistic returns",
+        "how_it_works": "Promise high returns with little risk, use new investors to pay old ones",
+        "prevention": "If it sounds too good to be true, it probably is",
+        "example": "Platform promising 50% monthly returns on investments"
+      },
+      {
+        "name": "Fake Customer Support",
+        "description": "Scammers impersonate bank support staff",
+        "how_it_works": "Call or message claiming to be from bank, ask for sensitive info",
+        "prevention": "Never share credentials with anyone claiming to be support",
+        "example": "Caller says your account is compromised and needs your PIN to fix it"
+      },
+      {
+        "name": "Advance Fee Fraud (419)",
+        "description": "Request upfront payment for promised larger sum",
+        "how_it_works": "Claim you won lottery/inheritance but need to pay fees first",
+        "prevention": "Legitimate winnings never require upfront payment",
+        "example": "Email saying you won $1M but need to pay ₦50,000 processing fee"
+      }
+    ],
+    "red_flags": [
+      "Requests for immediate action",
+      "Threats of account closure",
+      "Requests for personal information",
+      "Poor grammar or spelling",
+      "Suspicious links or attachments",
+      "Offers that seem too good to be true",
+      "Pressure to keep things secret",
+      "Requests to move conversation off official channels"
+    ],
+    "safe_banking_habits": [
+      "Check your account regularly",
+      "Set up transaction alerts",
+      "Use strong, unique passwords",
+      "Enable two-factor authentication",
+      "Keep your contact information updated",
+      "Report suspicious activity immediately",
+      "Don't share account access with others",
+      "Log out after each session",
+      "Use official apps only",
+      "Keep your app updated"
+    ]
+  },
+  "compliance_rules": {
+    "cbn_regulations": {
+      "transaction_limits": {
+        "tier_1": {
+          "daily_limit": 50000,
+          "cumulative_limit": 300000,
+          "requirements": "Phone number and name only"
+        },
+        "tier_2": {
+          "daily_limit": 200000,
+          "cumulative_limit": 5000000,
+          "requirements": "BVN verification required"
+        },
+        "tier_3": {
+          "daily_limit": 5000000,
+          "cumulative_limit": "unlimited",
+          "requirements": "Full KYC with address verification"
+        }
+      },
+      "mandatory_checks": [
+        "BVN verification for tier 2+",
+        "Transaction monitoring",
+        "Suspicious activity reporting",
+        "Customer due diligence",
+        "Record keeping (7 years minimum)"
+      ]
+    },
+    "aml_kyc": {
+      "know_your_customer": [
+        "Verify customer identity",
+        "Understand nature of customer's business",
+        "Assess risk profile",
+        "Monitor transactions",
+        "Update customer information regularly"
+      ],
+      "suspicious_indicators": [
+        "Structuring (breaking large transactions into smaller ones)",
+        "Unusual transaction patterns",
+        "Transactions inconsistent with customer profile",
+        "Reluctance to provide information",
+        "Use of multiple accounts",
+        "Rapid movement of funds"
+      ],
+      "reporting_requirements": [
+        "Report suspicious transactions within 24 hours",
+        "File CTR for transactions above ₦5M",
+        "Maintain transaction records",
+        "Report attempted transactions",
+        "Cooperate with regulatory investigations"
+      ]
+    },
+    "ndpr_data_protection": {
+      "principles": [
+        "Lawfulness, fairness, and transparency",
+        "Purpose limitation",
+        "Data minimization",
+        "Accuracy",
+        "Storage limitation",
+        "Integrity and confidentiality"
+      ],
+      "user_rights": [
+        "Right to access personal data",
+        "Right to rectification",
+        "Right to erasure",
+        "Right to data portability",
+        "Right to object to processing",
+        "Right to withdraw consent"
+      ],
+      "security_measures": [
+        "Encryption of sensitive data",
+        "Access controls",
+        "Regular security audits",
+        "Data breach notification",
+        "Privacy by design",
+        "Staff training on data protection"
+      ]
+    }
+  },
+  "incident_response": {
+    "severity_levels": {
+      "low": {
+        "description": "Minor security event with no immediate risk",
+        "examples": ["Failed login attempt", "Weak password detected"],
+        "response": "Log and monitor",
+        "escalation": false
+      },
+      "medium": {
+        "description": "Potential security issue requiring attention",
+        "examples": ["Multiple failed logins", "Unusual transaction pattern"],
+        "response": "Alert user and security team",
+        "escalation": true
+      },
+      "high": {
+        "description": "Active security threat",
+        "examples": ["Suspected account takeover", "Phishing attempt"],
+        "response": "Lock account, notify user, investigate",
+        "escalation": true
+      },
+      "critical": {
+        "description": "Severe security breach",
+        "examples": ["Confirmed fraud", "Data breach", "SIM swap attack"],
+        "response": "Freeze account, immediate investigation, law enforcement",
+        "escalation": true
+      }
+    },
+    "response_procedures": {
+      "detection": [
+        "Monitor for anomalies",
+        "Analyze security logs",
+        "Review user reports",
+        "Automated threat detection"
+      ],
+      "containment": [
+        "Isolate affected accounts",
+        "Block suspicious transactions",
+        "Disable compromised credentials",
+        "Prevent further damage"
+      ],
+      "investigation": [
+        "Gather evidence",
+        "Analyze attack vectors",
+        "Identify root cause",
+        "Document findings"
+      ],
+      "remediation": [
+        "Fix vulnerabilities",
+        "Restore normal operations",
+        "Implement additional controls",
+        "Update security policies"
+      ],
+      "communication": [
+        "Notify affected users",
+        "Report to regulators",
+        "Update stakeholders",
+        "Public disclosure if required"
+      ]
+    }
+  },
+  "security_metrics": {
+    "kpis": [
+      {
+        "metric": "Fraud Detection Rate",
+        "target": ">95%",
+        "description": "Percentage of fraudulent transactions detected before completion"
+      },
+      {
+        "metric": "False Positive Rate",
+        "target": "<5%",
+        "description": "Percentage of legitimate transactions incorrectly flagged as fraud"
+      },
+      {
+        "metric": "Mean Time to Detect (MTTD)",
+        "target": "<5 minutes",
+        "description": "Average time to detect security incidents"
+      },
+      {
+        "metric": "Mean Time to Respond (MTTR)",
+        "target": "<15 minutes",
+        "description": "Average time to respond to security incidents"
+      },
+      {
+        "metric": "Account Takeover Prevention",
+        "target": ">99%",
+        "description": "Percentage of account takeover attempts prevented"
+      },
+      {
+        "metric": "User Security Awareness",
+        "target": ">80%",
+        "description": "Percentage of users who can identify common scams"
+      }
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-10",
+    "compliance_standards": ["CBN", "NDPR", "PCI-DSS", "AML/KYC"],
+    "threat_categories": 6,
+    "best_practices": 4,
+    "common_scams": 5,
+    "description": "Comprehensive security knowledge base for AI-powered threat detection and user education"
+  }
+}

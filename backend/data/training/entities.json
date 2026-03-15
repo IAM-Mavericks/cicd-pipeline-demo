@@ -1,0 +1,243 @@
+{
+  "entities": {
+    "amount": {
+      "type": "numeric",
+      "patterns": [
+        "\\b\\d+(?:,\\d{3})*(?:\\.\\d{2})?\\b",
+        "\\b\\d+k\\b",
+        "\\b\\d+m\\b",
+        "\\b\\d+\\.\\d+k\\b",
+        "\\b\\d+\\.\\d+m\\b"
+      ],
+      "keywords": [
+        "naira",
+        "ngn",
+        "₦",
+        "kobo"
+      ],
+      "examples": [
+        "5000",
+        "10,000",
+        "5k",
+        "1m",
+        "2.5k",
+        "1.2m",
+        "five thousand naira",
+        "₦5000"
+      ],
+      "word_to_number": {
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+        "ten": 10,
+        "twenty": 20,
+        "thirty": 30,
+        "forty": 40,
+        "fifty": 50,
+        "hundred": 100,
+        "thousand": 1000,
+        "million": 1000000
+      },
+      "multipliers": {
+        "k": 1000,
+        "m": 1000000,
+        "thousand": 1000,
+        "million": 1000000
+      }
+    },
+    "recipient": {
+      "type": "string",
+      "patterns": [
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "@\\w+",
+        "\\w+@\\w+\\.\\w+"
+      ],
+      "keywords": [
+        "to",
+        "for",
+        "give",
+        "pay"
+      ],
+      "examples": [
+        "John Doe",
+        "Mary Smith",
+        "@john",
+        "john@example.com",
+        "John",
+        "Mary"
+      ]
+    },
+    "account": {
+      "type": "numeric",
+      "patterns": [
+        "\\b\\d{10}\\b",
+        "\\b\\d{13}\\b"
+      ],
+      "keywords": [
+        "account",
+        "account number",
+        "acct"
+      ],
+      "examples": [
+        "0123456789",
+        "1234567890",
+        "1234567890123"
+      ],
+      "validation": {
+        "min_length": 10,
+        "max_length": 13,
+        "numeric_only": true
+      }
+    },
+    "phone": {
+      "type": "phone",
+      "patterns": [
+        "\\b0[789]\\d{9}\\b",
+        "\\+234[789]\\d{9}",
+        "234[789]\\d{9}"
+      ],
+      "keywords": [
+        "phone",
+        "number",
+        "mobile"
+      ],
+      "examples": [
+        "08012345678",
+        "07012345678",
+        "09012345678",
+        "+2348012345678",
+        "2348012345678"
+      ],
+      "validation": {
+        "length": 11,
+        "starts_with": ["070", "080", "081", "090", "091"]
+      }
+    },
+    "network": {
+      "type": "enum",
+      "patterns": [
+        "\\b(MTN|GLO|AIRTEL|9MOBILE|ETISALAT)\\b"
+      ],
+      "values": [
+        "MTN",
+        "GLO",
+        "AIRTEL",
+        "9MOBILE",
+        "ETISALAT"
+      ],
+      "aliases": {
+        "mtn": "MTN",
+        "glo": "GLO",
+        "airtel": "AIRTEL",
+        "9mobile": "9MOBILE",
+        "etisalat": "9MOBILE"
+      },
+      "examples": [
+        "MTN",
+        "GLO",
+        "AIRTEL",
+        "9MOBILE"
+      ]
+    },
+    "biller": {
+      "type": "enum",
+      "patterns": [
+        "\\b(DSTV|GOTV|STARTIMES|EKEDC|IKEDC|PHCN|AEDC|IBEDC|KEDCO)\\b"
+      ],
+      "categories": {
+        "cable": ["DSTV", "GOTV", "STARTIMES"],
+        "electricity": ["EKEDC", "IKEDC", "PHCN", "AEDC", "IBEDC", "KEDCO"],
+        "internet": ["SPECTRANET", "SMILE", "SWIFT"],
+        "water": ["LAGOS WATER", "ABUJA WATER"]
+      },
+      "aliases": {
+        "dstv": "DSTV",
+        "gotv": "GOTV",
+        "startimes": "STARTIMES",
+        "ekedc": "EKEDC",
+        "ikedc": "IKEDC",
+        "phcn": "PHCN",
+        "nepa": "PHCN",
+        "light": "PHCN",
+        "electricity": "PHCN"
+      },
+      "examples": [
+        "DSTV",
+        "GOTV",
+        "EKEDC",
+        "IKEDC",
+        "PHCN"
+      ]
+    },
+    "date": {
+      "type": "date",
+      "patterns": [
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b\\d{4}-\\d{2}-\\d{2}\\b",
+        "\\b(today|tomorrow|yesterday)\\b",
+        "\\b(last|next) (week|month|year)\\b"
+      ],
+      "keywords": [
+        "on",
+        "at",
+        "by",
+        "before",
+        "after"
+      ],
+      "examples": [
+        "today",
+        "tomorrow",
+        "yesterday",
+        "last week",
+        "next month",
+        "10/11/2025",
+        "2025-11-10"
+      ]
+    },
+    "time": {
+      "type": "time",
+      "patterns": [
+        "\\b\\d{1,2}:\\d{2}\\s*(am|pm)?\\b",
+        "\\b(morning|afternoon|evening|night)\\b"
+      ],
+      "examples": [
+        "10:00 am",
+        "2:30 pm",
+        "morning",
+        "evening"
+      ]
+    }
+  },
+  "extraction_rules": {
+    "priority_order": [
+      "account",
+      "phone",
+      "amount",
+      "network",
+      "biller",
+      "recipient",
+      "date",
+      "time"
+    ],
+    "context_keywords": {
+      "amount": ["send", "transfer", "pay", "buy", "of", "for"],
+      "recipient": ["to", "for", "give", "pay"],
+      "account": ["to", "account", "number"],
+      "phone": ["for", "to", "number"],
+      "network": ["buy", "recharge", "airtime", "credit"],
+      "biller": ["pay", "bill", "subscription"]
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2025-11-10",
+    "total_entities": 8,
+    "description": "Entity extraction patterns for SznPay conversational banking"
+  }
+}
