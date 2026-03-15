@@ -136,3 +136,4 @@ jobs:
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:latest
 
+
