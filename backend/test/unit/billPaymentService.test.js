@@ -1,3 +1,26 @@
+jest.mock('axios', () => ({
+  get: jest.fn((url) => {
+    if (url.includes('/bill/categories')) {
+      return Promise.resolve({
+        data: {
+          status: true,
+          data: [
+            { id: 1, name: 'EKEDC Prepaid', biller_code: 'BIL119', type: 'prepaid', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: false },
+            { id: 2, name: 'IKEDC Prepaid', biller_code: 'BIL120', type: 'prepaid', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: false },
+            { id: 3, name: 'DSTV', biller_code: 'BIL121', type: 'cable_tv', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: false },
+            { id: 4, name: 'GOtv', biller_code: 'BIL122', type: 'cable_tv', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: false },
+            { id: 5, name: 'MTN Airtime', biller_code: 'BIL123', type: 'airtime', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: true },
+            { id: 6, name: 'Airtel Airtime', biller_code: 'BIL124', type: 'airtime', country: 'NG', currency: 'NGN', min_amount: 0, max_amount: 0, is_airtime: true },
+          ]
+        }
+      });
+    }
+    return Promise.resolve({ data: { status: true, data: [] } });
+  }),
+  post: jest.fn(() => Promise.resolve({ data: { status: true } })),
+  create: jest.fn(),
+  defaults: { headers: { common: {} } }
+}));
 const BillPaymentService = require('../../services/billPaymentService');
 
 describe('BillPaymentService', () => {
@@ -9,7 +32,7 @@ describe('BillPaymentService', () => {
     it('should return billers for all categories', async () => {
       const result = await BillPaymentService.getBillers();
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('electricity');
       expect(result.data).toHaveProperty('cable_tv');
@@ -59,7 +82,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.verifyCustomer(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('customerName');
       expect(result.data).toHaveProperty('meterNumber', params.customerIdentifier);
@@ -75,7 +98,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.verifyCustomer(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('customerName');
       expect(result.data).toHaveProperty('smartcardNumber', params.customerIdentifier);
@@ -91,7 +114,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.verifyCustomer(params);
 
       // The service doesn't validate service type in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
 
     it('should handle missing required fields', async () => {
@@ -103,7 +126,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.verifyCustomer(params);
 
       // The service doesn't validate required fields in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
   });
 
@@ -119,7 +142,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.purchaseElectricity(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('token');
       expect(result.data).toHaveProperty('units');
@@ -139,7 +162,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseElectricity(params);
 
       // The service doesn't validate amount in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
 
     it('should handle missing required fields', async () => {
@@ -151,7 +174,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseElectricity(params);
 
       // The service doesn't validate required fields in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
   });
 
@@ -168,7 +191,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.purchaseCableTV(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('status', 'successful');
       expect(result.data).toHaveProperty('validUntil');
@@ -189,7 +212,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseCableTV(params);
 
       // The service doesn't validate package in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
   });
 
@@ -203,7 +226,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.purchaseAirtime(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('phoneNumber');
       expect(result.data).toHaveProperty('amount');
@@ -221,7 +244,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseAirtime(params);
 
       // The service doesn't actually validate phone format in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
 
     it('should handle minimum amount validation', async () => {
@@ -234,7 +257,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseAirtime(params);
 
       // The service doesn't validate amount in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
   });
 
@@ -249,7 +272,7 @@ describe('BillPaymentService', () => {
 
       const result = await BillPaymentService.purchaseData(params);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(result.data).toHaveProperty('phoneNumber');
       expect(result.data).toHaveProperty('plan');
@@ -268,7 +291,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.purchaseData(params);
 
       // The service doesn't validate plans in mock
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
     });
   });
 
@@ -276,7 +299,7 @@ describe('BillPaymentService', () => {
     it('should return data plans for network', async () => {
       const result = await BillPaymentService.getDataPlans('MTN');
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.data.length).toBeGreaterThan(0);
@@ -291,7 +314,7 @@ describe('BillPaymentService', () => {
       const result = await BillPaymentService.getDataPlans('invalid');
 
       // The service returns empty array for invalid network
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result.data).toEqual([]);
     });
   });
@@ -301,7 +324,7 @@ describe('BillPaymentService', () => {
       const userId = 'user123';
       const result = await BillPaymentService.getPaymentHistory(userId);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
       expect(Array.isArray(result.data)).toBe(true);
     });
@@ -310,7 +333,7 @@ describe('BillPaymentService', () => {
       const userId = 'user123';
       const result = await BillPaymentService.getPaymentHistory(userId);
 
-      expect(result).toHaveProperty('success', true);
+      console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
       expect(result).toHaveProperty('data');
     });
   });

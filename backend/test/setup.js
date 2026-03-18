@@ -6,7 +6,37 @@
 // Set test environment variables
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = 'test-secret-key-that-is-at-least-32-chars';
-process.env.MONGODB_URI = 'mongodb://localhost:27017/mavenpay-test';
+// MongoDB Memory Server — global setup handles connection
+const mongoose = require('mongoose');
+
+beforeAll(async () => {
+  if (process.env.MONGODB_URI) {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 30000,
+    });
+  }
+}, 30000);
+
+afterAll(async () => {
+  try {
+    await mongoose.disconnect();
+  } catch (err) {
+    // ignore
+  }
+});
+
+afterEach(async () => {
+  if (mongoose.connection.readyState === 1) {
+    const collections = mongoose.connection.collections;
+    for (const key in collections) {
+      try {
+        await collections[key].deleteMany({});
+      } catch (err) {
+        // ignore
+      }
+    }
+  }
+});
 process.env.REDIS_HOST = 'localhost';
 process.env.REDIS_PORT = '6379';
 process.env.PG_TEST_ENABLED = 'false';
@@ -22,7 +52,7 @@ process.env.PG_TEST_ENABLED = 'false';
 // };
 
 // Increase timeout for integration tests
-jest.setTimeout(10000);
+jest.setTimeout(60000); // 60s — MongoMemoryServer needs time to download on first run
 
 // Mock environment-specific modules
 jest.mock('winston', () => ({

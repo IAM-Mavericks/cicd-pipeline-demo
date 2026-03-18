@@ -31,11 +31,40 @@ class BillPaymentService {
       });
 
       if (response.data.status) {
-        // Transform Paystack data to SznPay format
-        // This is a simplified mapping
+        const billers = response.data.data;
+
+        // Transform flat array into categories
+        const categorized = {
+          electricity: billers.filter(b =>
+            b.type === 'prepaid' || b.type === 'postpaid' ||
+            b.name?.toLowerCase().includes('electric') ||
+            b.name?.toLowerCase().includes('power') ||
+            b.name?.toLowerCase().includes('disco')
+          ),
+          cable_tv: billers.filter(b =>
+            b.type === 'cable_tv' ||
+            b.name?.toLowerCase().includes('dstv') ||
+            b.name?.toLowerCase().includes('gotv') ||
+            b.name?.toLowerCase().includes('startimes')
+          ),
+          airtime: billers.filter(b =>
+            b.is_airtime === true ||
+            b.type === 'airtime' ||
+            b.name?.toLowerCase().includes('airtime')
+          ),
+          data: billers.filter(b =>
+            b.type === 'data' ||
+            b.name?.toLowerCase().includes('data')
+          ),
+          water: billers.filter(b =>
+            b.type === 'water' ||
+            b.name?.toLowerCase().includes('water')
+          ),
+        };
+
         return {
           success: true,
-          data: response.data.data
+          data: categorized
         };
       }
 

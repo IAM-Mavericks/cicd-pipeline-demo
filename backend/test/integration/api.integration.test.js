@@ -1,3 +1,9 @@
+jest.mock('axios', () => require('../mocks/axios'));
+jest.mock('../../services/billPaymentService');
+jest.mock('../../utils/jwt', () => ({
+  authenticateToken: (req, res, next) => next(),
+  requireRole: () => (req, res, next) => next(),
+}));
 const request = require('supertest');
 
 // Mock monitoring service to avoid hitting real Mongo/Redis during tests

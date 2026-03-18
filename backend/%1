@@ -1,0 +1,439 @@
+● Validation Warning:
+
+  Unknown option "runInBand" with value true was found.
+  This is probably a typing mistake. Fixing it will remove this message.
+
+  Configuration Documentation:
+  https://jestjs.io/docs/configuration
+
+● Validation Warning:
+
+  Unknown option "runInBand" with value true was found.
+  This is probably a typing mistake. Fixing it will remove this message.
+
+  Configuration Documentation:
+  https://jestjs.io/docs/configuration
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+FAIL test/unit/billPaymentService.test.js (7.209 s)
+  BillPaymentService
+    getBillers
+      ✕ should return billers for all categories (30 ms)
+      ✕ should return electricity billers with required fields (1 ms)
+      ✕ should return cable TV billers with required fields (1 ms)
+      ✕ should return airtime billers with required fields
+    verifyCustomer
+      ✕ should verify electricity customer successfully (2 ms)
+      ✕ should verify cable TV customer successfully (1 ms)
+      ✕ should handle invalid service type (1 ms)
+      ✕ should handle missing required fields (1 ms)
+    purchaseElectricity
+      ✕ should purchase electricity successfully (1 ms)
+      ✕ should handle invalid amount (1 ms)
+      ✕ should handle missing required fields (1 ms)
+    purchaseCableTV
+      ✕ should purchase cable TV subscription successfully (2 ms)
+      ✕ should handle invalid package (1 ms)
+    purchaseAirtime
+      ✕ should purchase airtime successfully (1 ms)
+      ✕ should validate phone number format (1 ms)
+      ✕ should handle minimum amount validation (1 ms)
+    purchaseData
+      ✕ should purchase data bundle successfully (1 ms)
+      ✕ should handle invalid data plan (1 ms)
+    getDataPlans
+      ✕ should return data plans for network (1 ms)
+      ✕ should handle invalid network (1 ms)
+    getPaymentHistory
+      ✕ should return payment history for user (1 ms)
+      ✕ should handle pagination parameters (1 ms)
+
+  ● BillPaymentService › getBillers › should return billers for all categories
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      33 |       const result = await BillPaymentService.getBillers();
+      34 |
+    > 35 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+         |                                                      ^
+      36 |       expect(result).toHaveProperty('data');
+      37 |       expect(result.data).toHaveProperty('electricity');
+      38 |       expect(result.data).toHaveProperty('cable_tv');
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:35:54)
+
+  ● BillPaymentService › getBillers › should return electricity billers with required fields
+
+    TypeError: Cannot read properties of undefined (reading 'data')
+
+      45 |     it('should return electricity billers with required fields', async () => {
+      46 |       const result = await BillPaymentService.getBillers();
+    > 47 |       const electricityBillers = result.data.electricity;
+         |                                         ^
+      48 |
+      49 |       expect(electricityBillers.length).toBeGreaterThan(0);
+      50 |       expect(electricityBillers[0]).toHaveProperty('id');
+
+      at Object.data (test/unit/billPaymentService.test.js:47:41)
+
+  ● BillPaymentService › getBillers › should return cable TV billers with required fields
+
+    TypeError: Cannot read properties of undefined (reading 'data')
+
+      55 |     it('should return cable TV billers with required fields', async () => {
+      56 |       const result = await BillPaymentService.getBillers();
+    > 57 |       const cableBillers = result.data.cable_tv;
+         |                                   ^
+      58 |
+      59 |       expect(cableBillers.length).toBeGreaterThan(0);
+      60 |       expect(cableBillers[0]).toHaveProperty('id');
+
+      at Object.data (test/unit/billPaymentService.test.js:57:35)
+
+  ● BillPaymentService › getBillers › should return airtime billers with required fields
+
+    TypeError: Cannot read properties of undefined (reading 'data')
+
+      65 |     it('should return airtime billers with required fields', async () => {
+      66 |       const result = await BillPaymentService.getBillers();
+    > 67 |       const airtimeBillers = result.data.airtime;
+         |                                     ^
+      68 |
+      69 |       expect(airtimeBillers.length).toBeGreaterThan(0);
+      70 |       expect(airtimeBillers[0]).toHaveProperty('id');
+
+      at Object.data (test/unit/billPaymentService.test.js:67:37)
+
+  ● BillPaymentService › verifyCustomer › should verify electricity customer successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      83 |       const result = await BillPaymentService.verifyCustomer(params);
+      84 |
+    > 85 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+         |                                                      ^
+      86 |       expect(result).toHaveProperty('data');
+      87 |       expect(result.data).toHaveProperty('customerName');
+      88 |       expect(result.data).toHaveProperty('meterNumber', params.customerIdentifier);
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:85:54)
+
+  ● BillPaymentService › verifyCustomer › should verify cable TV customer successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+       99 |       const result = await BillPaymentService.verifyCustomer(params);
+      100 |
+    > 101 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      102 |       expect(result).toHaveProperty('data');
+      103 |       expect(result.data).toHaveProperty('customerName');
+      104 |       expect(result.data).toHaveProperty('smartcardNumber', params.customerIdentifier);
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:101:54)
+
+  ● BillPaymentService › verifyCustomer › should handle invalid service type
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      115 |
+      116 |       // The service doesn't validate service type in mock
+    > 117 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      118 |     });
+      119 |
+      120 |     it('should handle missing required fields', async () => {
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:117:54)
+
+  ● BillPaymentService › verifyCustomer › should handle missing required fields
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      127 |
+      128 |       // The service doesn't validate required fields in mock
+    > 129 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      130 |     });
+      131 |   });
+      132 |
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:129:54)
+
+  ● BillPaymentService › purchaseElectricity › should purchase electricity successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      143 |       const result = await BillPaymentService.purchaseElectricity(params);
+      144 |
+    > 145 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      146 |       expect(result).toHaveProperty('data');
+      147 |       expect(result.data).toHaveProperty('token');
+      148 |       expect(result.data).toHaveProperty('units');
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:145:54)
+
+  ● BillPaymentService › purchaseElectricity › should handle invalid amount
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      163 |
+      164 |       // The service doesn't validate amount in mock
+    > 165 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      166 |     });
+      167 |
+      168 |     it('should handle missing required fields', async () => {
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:165:54)
+
+  ● BillPaymentService › purchaseElectricity › should handle missing required fields
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      175 |
+      176 |       // The service doesn't validate required fields in mock
+    > 177 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      178 |     });
+      179 |   });
+      180 |
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:177:54)
+
+  ● BillPaymentService › purchaseCableTV › should purchase cable TV subscription successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      192 |       const result = await BillPaymentService.purchaseCableTV(params);
+      193 |
+    > 194 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      195 |       expect(result).toHaveProperty('data');
+      196 |       expect(result.data).toHaveProperty('status', 'successful');
+      197 |       expect(result.data).toHaveProperty('validUntil');
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:194:54)
+
+  ● BillPaymentService › purchaseCableTV › should handle invalid package
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      213 |
+      214 |       // The service doesn't validate package in mock
+    > 215 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      216 |     });
+      217 |   });
+      218 |
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:215:54)
+
+  ● BillPaymentService › purchaseAirtime › should purchase airtime successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      227 |       const result = await BillPaymentService.purchaseAirtime(params);
+      228 |
+    > 229 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      230 |       expect(result).toHaveProperty('data');
+      231 |       expect(result.data).toHaveProperty('phoneNumber');
+      232 |       expect(result.data).toHaveProperty('amount');
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:229:54)
+
+  ● BillPaymentService › purchaseAirtime › should validate phone number format
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      245 |
+      246 |       // The service doesn't actually validate phone format in mock
+    > 247 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      248 |     });
+      249 |
+      250 |     it('should handle minimum amount validation', async () => {
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:247:54)
+
+  ● BillPaymentService › purchaseAirtime › should handle minimum amount validation
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      258 |
+      259 |       // The service doesn't validate amount in mock
+    > 260 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      261 |     });
+      262 |   });
+      263 |
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:260:54)
+
+  ● BillPaymentService › purchaseData › should purchase data bundle successfully
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      273 |       const result = await BillPaymentService.purchaseData(params);
+      274 |
+    > 275 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      276 |       expect(result).toHaveProperty('data');
+      277 |       expect(result.data).toHaveProperty('phoneNumber');
+      278 |       expect(result.data).toHaveProperty('plan');
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:275:54)
+
+  ● BillPaymentService › purchaseData › should handle invalid data plan
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      292 |
+      293 |       // The service doesn't validate plans in mock
+    > 294 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      295 |     });
+      296 |   });
+      297 |
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:294:54)
+
+  ● BillPaymentService › getDataPlans › should return data plans for network
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      300 |       const result = await BillPaymentService.getDataPlans('MTN');
+      301 |
+    > 302 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      303 |       expect(result).toHaveProperty('data');
+      304 |       expect(Array.isArray(result.data)).toBe(true);
+      305 |       expect(result.data.length).toBeGreaterThan(0);
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:302:54)
+
+  ● BillPaymentService › getDataPlans › should handle invalid network
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      315 |
+      316 |       // The service returns empty array for invalid network
+    > 317 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      318 |       expect(result.data).toEqual([]);
+      319 |     });
+      320 |   });
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:317:54)
+
+  ● BillPaymentService › getPaymentHistory › should return payment history for user
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      325 |       const result = await BillPaymentService.getPaymentHistory(userId);
+      326 |
+    > 327 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      328 |       expect(result).toHaveProperty('data');
+      329 |       expect(Array.isArray(result.data)).toBe(true);
+      330 |     });
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:327:54)
+
+  ● BillPaymentService › getPaymentHistory › should handle pagination parameters
+
+    expect(received).toHaveProperty(path, value)
+
+    Matcher error: received value must not be null nor undefined
+
+    Received has value: undefined
+
+      334 |       const result = await BillPaymentService.getPaymentHistory(userId);
+      335 |
+    > 336 |       console.log("RESULT:", result); expect(result).toHaveProperty('success', true);
+          |                                                      ^
+      337 |       expect(result).toHaveProperty('data');
+      338 |     });
+      339 |   });
+
+      at Object.toHaveProperty (test/unit/billPaymentService.test.js:336:54)
+
+Test Suites: 1 failed, 1 total
+Tests:       22 failed, 22 total
+Snapshots:   0 total
+Time:        7.499 s
+Ran all test suites matching /test\/unit\/billPaymentService.test.js/i.
