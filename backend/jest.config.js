@@ -75,7 +75,7 @@ module.exports = {
     'test/zkpAiTest.js',
   ],
   // Run serially to avoid MongoDB connection conflicts
-  --runInBand: true,
+  runInBand: true,
   // Verbose output
   verbose: true,
 
