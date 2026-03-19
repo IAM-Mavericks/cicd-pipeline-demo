@@ -36,9 +36,9 @@ jobs:
       - name: Run backend tests
         working-directory: backend
         run: npm test
-        continue-on-error: true
         env:
           NODE_ENV: test
+          PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
 
   # ─── JOB 2: Lint Frontend ──────────────────────────
   lint-frontend:
