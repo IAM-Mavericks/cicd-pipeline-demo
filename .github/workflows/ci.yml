@@ -138,4 +138,48 @@ jobs:
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:latest
 
+# ─── JOB 5: Deploy to EC2 ──────────────────────────
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
 
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Authenticate Docker to ECR
+            aws ecr get-login-password --region us-east-1 | \
+              docker login --username AWS --password-stdin \
+              158988874502.dkr.ecr.us-east-1.amazonaws.com
+
+            # Pull latest images
+            docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+            docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+
+            # Stop and remove old containers
+            docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
+            docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
+
+            # Run backend
+            docker run -d \
+              --name sznpay-backend \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              -e NODE_ENV=production \
+              158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+
+            # Run frontend
+            docker run -d \
+              --name sznpay-frontend \
+              --restart unless-stopped \
+              -p 80:80 \
+              158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+
+            # Health check
+            sleep 5
+            docker ps | grep sznpay
