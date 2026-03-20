@@ -13,26 +13,21 @@ env:
   FRONTEND_IMAGE: sznpay-frontend
 
 jobs:
-  # ─── JOB 1: Test Backend ───────────────────────────
   test-backend:
     name: Test Backend
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: backend/package-lock.json
-
       - name: Install backend dependencies
         working-directory: backend
         run: npm ci
-
       - name: Run backend tests
         working-directory: backend
         run: npm test
@@ -40,53 +35,42 @@ jobs:
           NODE_ENV: test
           PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
 
-  # ─── JOB 2: Lint Frontend ──────────────────────────
   lint-frontend:
     name: Lint Frontend
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
       - name: Install pnpm
         run: npm install -g pnpm@8.10.0
-
       - name: Install frontend dependencies
         working-directory: frontend
         run: pnpm install --no-frozen-lockfile
-
       - name: Run linter
         working-directory: frontend
         run: pnpm lint
         continue-on-error: true
 
-  # ─── JOB 3: Build & Push Backend ───────────────────
   build-backend:
     name: Build & Push Backend
     runs-on: ubuntu-latest
     needs: [test-backend]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
       - name: Build, tag, and push backend image
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -97,8 +81,6 @@ jobs:
             .
           docker push $ECR_REGISTRY/$BACKEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$BACKEND_IMAGE:latest
-          echo "image=$ECR_REGISTRY/$BACKEND_IMAGE:$IMAGE_TAG" >> $GITHUB_OUTPUT
-
       - name: Scan image for vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
@@ -107,26 +89,21 @@ jobs:
           exit-code: '0'
           severity: CRITICAL,HIGH
 
-  # ─── JOB 4: Build & Push Frontend ──────────────────
   build-frontend:
     name: Build & Push Frontend
     runs-on: ubuntu-latest
     needs: [lint-frontend]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-
       - name: Build, tag, and push frontend image
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -138,12 +115,10 @@ jobs:
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:latest
 
-# ─── JOB 5: Deploy to EC2 ──────────────────────────
   deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
-
     steps:
       - name: Deploy to EC2 via SSH
         env:
@@ -151,34 +126,19 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
-          # Decode and save key
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-
-          # Deploy via native SSH
           ssh -i /tmp/deploy_key \
             -o StrictHostKeyChecking=no \
             $EC2_USER@$EC2_HOST << 'ENDSSH'
-            aws ecr get-login-password --region us-east-1 | \
-              docker login --username AWS --password-stdin \
-              158988874502.dkr.ecr.us-east-1.amazonaws.com
-            docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
-            docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
-            docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
-            docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
-            docker run -d \
-              --name sznpay-backend \
-              --restart unless-stopped \
-              -p 3000:3000 \
-              -e NODE_ENV=production \
-              158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
-            docker run -d \
-              --name sznpay-frontend \
-              --restart unless-stopped \
-              -p 80:80 \
-              158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
-            sleep 5
-            docker ps | grep sznpay
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
+          docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+          docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+          docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
+          docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
+          docker run -d --name sznpay-backend --restart unless-stopped -p 3000:3000 -e NODE_ENV=production 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+          docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+          sleep 5
+          docker ps | grep sznpay
 ENDSSH
-          # Cleanup
           rm -f /tmp/deploy_key
