@@ -139,7 +139,7 @@ jobs:
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:latest
 
 # ─── JOB 5: Deploy to EC2 ──────────────────────────
-deploy:
+  deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
