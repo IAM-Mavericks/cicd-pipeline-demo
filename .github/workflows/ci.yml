@@ -145,20 +145,20 @@ jobs:
     needs: [build-backend, build-frontend]
 
     steps:
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" | base64 -d > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-
       - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key_path: ~/.ssh/deploy_key
-          script: |
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          # Decode and save key
+          echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          # Deploy via native SSH
+          ssh -i /tmp/deploy_key \
+            -o StrictHostKeyChecking=no \
+            $EC2_USER@$EC2_HOST << 'ENDSSH'
             aws ecr get-login-password --region us-east-1 | \
               docker login --username AWS --password-stdin \
               158988874502.dkr.ecr.us-east-1.amazonaws.com
@@ -179,3 +179,6 @@ jobs:
               158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
             sleep 5
             docker ps | grep sznpay
+ENDSSH
+          # Cleanup
+          rm -f /tmp/deploy_key
