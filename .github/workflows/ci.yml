@@ -75,10 +75,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f Dockerfile.backend \
-            -t $ECR_REGISTRY/$BACKEND_IMAGE:$IMAGE_TAG \
-            -t $ECR_REGISTRY/$BACKEND_IMAGE:latest \
-            .
+          docker build -f Dockerfile.backend -t $ECR_REGISTRY/$BACKEND_IMAGE:$IMAGE_TAG -t $ECR_REGISTRY/$BACKEND_IMAGE:latest .
           docker push $ECR_REGISTRY/$BACKEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$BACKEND_IMAGE:latest
       - name: Scan image for vulnerabilities
@@ -108,10 +105,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f Dockerfile.frontend \
-            -t $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG \
-            -t $ECR_REGISTRY/$FRONTEND_IMAGE:latest \
-            .
+          docker build -f Dockerfile.frontend -t $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG -t $ECR_REGISTRY/$FRONTEND_IMAGE:latest .
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:$IMAGE_TAG
           docker push $ECR_REGISTRY/$FRONTEND_IMAGE:latest
 
@@ -128,9 +122,7 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          ssh -i /tmp/deploy_key \
-            -o StrictHostKeyChecking=no \
-            $EC2_USER@$EC2_HOST << 'ENDSSH'
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'bash -s' << 'COMMANDS'
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
@@ -140,5 +132,5 @@ jobs:
           docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
           sleep 5
           docker ps | grep sznpay
-ENDSSH
+          COMMANDS
           rm -f /tmp/deploy_key
