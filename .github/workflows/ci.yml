@@ -122,9 +122,15 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          echo "=== Key type ==="
-          head -1 /tmp/deploy_key
-          echo "=== Key size ==="
-          wc -c /tmp/deploy_key
-          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no -o LogLevel=DEBUG $EC2_USER@$EC2_HOST 'echo connected'
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'bash -s' << 'COMMANDS'
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
+          docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+          docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+          docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
+          docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
+          docker run -d --name sznpay-backend --restart unless-stopped -p 3000:3000 -e NODE_ENV=production 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
+          docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
+          sleep 5
+          docker ps | grep sznpay
+          COMMANDS
           rm -f /tmp/deploy_key
