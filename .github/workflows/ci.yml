@@ -120,14 +120,11 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
-	  echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
+          echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          echo "=== Key type ===" 
+          echo "=== Key type ==="
           head -1 /tmp/deploy_key
-          echo "=== Key length ==="
+          echo "=== Key size ==="
           wc -c /tmp/deploy_key
-          ssh -i /tmp/deploy_key \
-            -o StrictHostKeyChecking=no \
-            -o LogLevel=DEBUG \
-            $EC2_USER@$EC2_HOST 'echo connected'
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no -o LogLevel=DEBUG $EC2_USER@$EC2_HOST 'echo connected'
           rm -f /tmp/deploy_key
