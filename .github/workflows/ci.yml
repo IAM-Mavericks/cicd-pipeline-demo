@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
     steps:
-      - name: Deploy to EC2 via SSH
+      - name: Write env file to EC2
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER }}
@@ -125,18 +125,29 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST \
-            JWT_SECRET="$JWT_SECRET" JWT_REFRESH_SECRET="$JWT_REFRESH_SECRET" MONGODB_URI="$MONGODB_URI" bash -s << 'COMMANDS'
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cat > /home/ec2-user/sznpay.env << 'EOF'
+          NODE_ENV=production
+          JWT_SECRET=$JWT_SECRET
+          JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
+          MONGODB_URI=$MONGODB_URI
+          EOF"
+
+      - name: Deploy containers to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'bash -s' << 'COMMANDS'
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
           docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
           docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
           docker run -d --name sznpay-backend --restart unless-stopped -p 3001:3001 \
-            -e NODE_ENV=production \
-            -e JWT_SECRET="$JWT_SECRET" \
-            -e JWT_REFRESH_SECRET="$JWT_REFRESH_SECRET" \
-            -e MONGODB_URI="$MONGODB_URI" \
+            --env-file /home/ec2-user/sznpay.env \
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 \
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
