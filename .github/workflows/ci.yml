@@ -121,24 +121,26 @@ jobs:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST \
-            JWT_SECRET="$JWT_SECRET" JWT_REFRESH_SECRET="$JWT_REFRESH_SECRET" bash -s << 'COMMANDS'
+            JWT_SECRET="$JWT_SECRET" JWT_REFRESH_SECRET="$JWT_REFRESH_SECRET" MONGODB_URI="$MONGODB_URI" bash -s << 'COMMANDS'
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
           docker stop sznpay-backend sznpay-frontend 2>/dev/null || true
           docker rm sznpay-backend sznpay-frontend 2>/dev/null || true
-          docker run -d --name sznpay-backend --restart unless-stopped -p 3000:3000 \
+          docker run -d --name sznpay-backend --restart unless-stopped -p 3001:3001 \
             -e NODE_ENV=production \
             -e JWT_SECRET="$JWT_SECRET" \
             -e JWT_REFRESH_SECRET="$JWT_REFRESH_SECRET" \
+            -e MONGODB_URI="$MONGODB_URI" \
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 \
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
-          sleep 5
+          sleep 10
           docker ps | grep sznpay
           COMMANDS
           rm -f /tmp/deploy_key
