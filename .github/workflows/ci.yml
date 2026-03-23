@@ -126,13 +126,14 @@ jobs:
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
-          # Write env file locally first
-          cat > /tmp/sznpay.env << ENVEOF
-          NODE_ENV=production
-          JWT_SECRET=${JWT_SECRET}
-          JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
-          MONGODB_URI=${MONGODB_URI}
-          ENVEOF
+          # Write env file using printf to preserve special characters
+          printf "NODE_ENV=staging\nJWT_SECRET=%s\nJWT_REFRESH_SECRET=%s\nMONGODB_URI=%s\n" \
+            "$JWT_SECRET" "$JWT_REFRESH_SECRET" "$MONGODB_URI" > /tmp/sznpay.env
+
+          # Verify env file has content
+          echo "=== Env file preview ==="
+          head -1 /tmp/sznpay.env
+          grep -c "MONGODB_URI" /tmp/sznpay.env
 
           # Copy env file to server
           scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
@@ -152,5 +153,6 @@ jobs:
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
           sleep 10
           docker ps | grep sznpay
+          curl -s http://localhost:3001/health
           COMMANDS
           rm -f /tmp/deploy_key /tmp/sznpay.env
