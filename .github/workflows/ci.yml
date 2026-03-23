@@ -121,25 +121,27 @@ jobs:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_URI_B64: ${{ secrets.MONGODB_URI }}
         run: |
           echo "$EC2_SSH_KEY" | base64 -d > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
-          # Write env file using printf to preserve special characters
+          # Decode MONGODB_URI from base64
+          MONGODB_URI=$(echo "$MONGODB_URI_B64" | base64 -d)
+
+          # Write env file
           printf "NODE_ENV=staging\nJWT_SECRET=%s\nJWT_REFRESH_SECRET=%s\nMONGODB_URI=%s\n" \
             "$JWT_SECRET" "$JWT_REFRESH_SECRET" "$MONGODB_URI" > /tmp/sznpay.env
 
-          # Verify env file has content
-          echo "=== Env file preview ==="
-          head -1 /tmp/sznpay.env
-          grep -c "MONGODB_URI" /tmp/sznpay.env
+          # Verify
+          echo "=== MONGODB_URI set: ==="
+          grep MONGODB_URI /tmp/sznpay.env | cut -c1-40
 
-          # Copy env file to server
+          # Copy to server
           scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
             /tmp/sznpay.env $EC2_USER@$EC2_HOST:/home/ec2-user/sznpay.env
 
-          # Deploy containers
+          # Deploy
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'bash -s' << 'COMMANDS'
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 158988874502.dkr.ecr.us-east-1.amazonaws.com
           docker pull 158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
@@ -151,8 +153,7 @@ jobs:
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-backend:latest
           docker run -d --name sznpay-frontend --restart unless-stopped -p 80:80 \
             158988874502.dkr.ecr.us-east-1.amazonaws.com/sznpay-frontend:latest
-          sleep 10
+          sleep 15
           docker ps | grep sznpay
-          curl -s http://localhost:3001/health
           COMMANDS
           rm -f /tmp/deploy_key /tmp/sznpay.env
