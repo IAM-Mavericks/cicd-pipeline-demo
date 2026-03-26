@@ -12,7 +12,7 @@ What was built:
 - RDS PostgreSQL (Multi-AZ)
 - Remote state: S3 + DynamoDB locking
 - IAM roles and security groups
-Status: Complete and deployed
+Status: COMPLETE
 
 ## Project 2 — CI/CD Pipeline for SznPay (COMPLETE)
 Repo: https://github.com/IAM-Mavericks/cicd-pipeline-demo
