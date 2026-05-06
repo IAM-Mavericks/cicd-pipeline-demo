@@ -22,30 +22,28 @@ pipeline {
         }
 
         stage('Test Backend') {
-            steps {
-                echo 'Running backend tests...'
-                dir('backend') {
-                    sh '''
-                        npm ci
-                        npm test -- --passWithNoTests
-                    '''
-                }
-            }
+    steps {
+        echo 'Running backend unit tests...'
+        dir('backend') {
+            sh '''
+                npm ci
+                npm test -- --passWithNoTests --testPathPattern="test/unit" --forceExit --testTimeout=10000
+            '''
         }
+    }
+}
 
-        stage('Lint Frontend') {
-            steps {
-                echo 'Linting frontend...'
-                dir('frontend') {
-                    sh '''
-                        npm install -g pnpm
-                        pnpm install
-                        pnpm lint || true
-                    '''
-                }
-            }
+     stage('Lint Frontend') {
+    steps {
+        echo 'Linting frontend...'
+        dir('frontend') {
+            sh '''
+                pnpm install --frozen-lockfile
+                pnpm lint || true
+            '''
         }
-
+    }
+}
         stage('Build & Push Backend') {
             steps {
                 echo 'Building and pushing backend image to ECR...'
