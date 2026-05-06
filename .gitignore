@@ -43,3 +43,5 @@ backend/logs/
 .idea
 .qodo
 terraform/terraform.tfvars
+APPRENTICESHIP_CONTEXT.md
+APPRENTICESHIP_CONTEXT.md.save
