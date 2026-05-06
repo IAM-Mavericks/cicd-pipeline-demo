@@ -68,28 +68,12 @@ Developer Push
             Backend        Frontend
 ```
 
+
 ### AWS Infrastructure Diagram
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    VPC (10.0.0.0/16)                        │
-│                                                             │
-│  ┌──────────────────┐    ┌──────────────────┐              │
-│  │  Public Subnet 1  │    │  Public Subnet 2  │             │
-│  │  (us-east-1a)    │    │  (us-east-1b)    │              │
-│  │  10.0.1.0/24     │    │  10.0.2.0/24     │              │
-│  │  [ALB, NAT GW]   │    │  [ALB]           │              │
-│  └──────────────────┘    └──────────────────┘              │
-│                                                             │
-│  ┌──────────────────┐    ┌──────────────────┐              │
-│  │  Private Subnet 1 │    │  Private Subnet 2 │             │
-│  │  (us-east-1a)    │    │  (us-east-1b)    │              │
-│  │  10.0.3.0/24     │    │  10.0.4.0/24     │              │
-│  │  [ECS Tasks]     │    │  [ECS Tasks]     │              │
-│  └──────────────────┘    └──────────────────┘              │
-│                                                             │
-│  External: MongoDB Atlas (sznpay-cluster)                   │
-└─────────────────────────────────────────────────────────────┘
+![SznPay Architecture](docs/architecture.svg)
+
+![VPC Infrastructure](docs/vpc-diagram.svg)
 ```
 
 ---
