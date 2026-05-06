@@ -49,10 +49,14 @@ if (process.env.NODE_ENV !== 'test') {
   process.on('SIGTERM', () => {
     console.log('SIGTERM received. Shutting down gracefully...');
     server.close(() => {
-      mongoose.connection.close(false, () => {
-        console.log('MongoDB connection closed');
-        process.exit(0);
-      });
+      mongoose.connection.close()
+        .then(() => {
+          console.log('MongoDB connection closed');
+          process.exit(0);
+        })
+        .catch(() => {
+          process.exit(0);
+        });
     });
   });
 }

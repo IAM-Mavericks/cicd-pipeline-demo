@@ -37,6 +37,7 @@ app.use(helmet(helmetConfig));
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1);
   app.use((req, res, next) => {
+    if (req.path === '/health') return next();
     if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
       return next();
     }
@@ -66,6 +67,13 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200
 };
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
