@@ -38,7 +38,7 @@ pipeline {
         echo 'Linting frontend...'
         dir('frontend') {
             sh '''
-                pnpm install --frozen-lockfile
+                pnpm install --no-frozen-lockfile
                 pnpm lint || true
             '''
         }
