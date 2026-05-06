@@ -35,6 +35,8 @@ The deployment covers:
 
 ## Architecture
 
+![SznPay Production Architecture](docs/architecture.svg)
+
 ```
 Developer Push
       │
