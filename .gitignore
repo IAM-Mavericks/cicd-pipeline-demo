@@ -42,3 +42,4 @@ backend/logs/
 .vscode
 .idea
 .qodo
+terraform/terraform.tfvars
