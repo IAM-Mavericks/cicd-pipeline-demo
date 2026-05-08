@@ -2,6 +2,7 @@
 ### Damolak Technologies — DevOps Engineer Practical Challenge
 
 > **Live Application:** http://sznpay-alb-1227912918.us-east-1.elb.amazonaws.com  
+> ⚠️ **Note:** Application is served over HTTP (not HTTPS). Please access using `http://` explicitly — browsers may default to HTTPS and time out.
 > **AWS Account:** `217019990405` | **Region:** `us-east-1`  
 > **Submitted by:** Favour Ninedeys
 
@@ -211,6 +212,12 @@ Port:      80
 |---------|-----|
 | Application | http://sznpay-alb-1227912918.us-east-1.elb.amazonaws.com |
 | API Health | http://sznpay-alb-1227912918.us-east-1.elb.amazonaws.com/health |
+
+> ⚠️ **Important:** Use `http://` explicitly in your browser address bar. Modern browsers auto-redirect to HTTPS which is not yet configured — this will cause a timeout.
+
+### Application Preview
+
+![SznPay Live Application](docs/app-screenshot.png)
 | Jenkins | http://44.212.144.105:8080 |
 
 ---
